@@ -1,0 +1,134 @@
+.navbar { 
+  display: flex !important; 
+  justify-content: space-between !important; 
+  align-items: center !important; 
+  padding: 1.5rem 4rem !important; 
+  background-color: #0d2320 !important; 
+  
+  /* Hacemos que el menú se quede fijo en la parte superior al hacer scroll */
+  position: sticky !important; 
+  top: 0 !important;
+  z-index: 1000 !important;
+  
+  width: 100% !important;
+  box-sizing: border-box !important;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2) !important;
+}
+
+.logo { 
+  font-family: 'Playfair Display', serif; 
+  font-size: 1.8rem; 
+}
+
+.logo-aqua { color: white; }
+.logo-flora { color: var(--gold); font-style: italic; }
+
+.nav-links { 
+  display: flex; 
+  list-style: none; 
+  gap: 2rem; 
+  margin: 0; 
+  padding: 0; 
+}
+
+.nav-links a { 
+  text-decoration: none; 
+  color: var(--text-light); 
+  font-size: 0.9rem; 
+  transition: color 0.3s; 
+}
+
+.nav-links a:hover { color: var(--gold); }
+
+.navbar-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-auth-login {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: white;
+  padding: 0.6rem 1.1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-family: 'Inter', sans-serif;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.btn-auth-login:hover {
+  border-color: var(--gold);
+  color: var(--gold);
+}
+
+.user-logged-box {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: rgba(220, 179, 88, 0.15);
+  border: 1px solid var(--gold);
+  color: var(--gold);
+  padding: 0.6rem 1.1rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.user-logged-box:hover {
+  background-color: rgba(220, 179, 88, 0.3);
+}
+
+.user-email-text {
+  max-width: 110px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cart-btn-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+.btn-carrito { 
+  display: flex; 
+  align-items: center; 
+  gap: 0.5rem; 
+  background-color: var(--gold); 
+  border: none; 
+  border-radius: 20px; 
+  padding: 0.6rem 1.2rem; 
+  font-weight: 500; 
+  cursor: pointer; 
+  color: #0d2320; 
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  transition: background-color 0.3s;
+}
+
+.btn-carrito:hover { 
+  background-color: #c49d4b; 
+}
+
+.cart-badge-count {
+  position: absolute;
+  top: -8px;
+  right: -6px;
+  background-color: #f6a6bb;
+  color: #0d2320;
+  font-size: 0.75rem;
+  font-weight: 700;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}

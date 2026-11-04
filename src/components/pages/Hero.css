@@ -1,0 +1,118 @@
+.hero { 
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr; 
+  align-items: center; 
+  padding: 2rem 4rem; 
+  gap: 4rem; 
+  min-height: 80vh; 
+}
+
+.hero-content { 
+  display: flex; 
+  flex-direction: column; 
+  align-items: flex-start; 
+  justify-content: center;
+}
+
+.kicker { 
+  color: var(--gold); 
+  font-size: 0.75rem; 
+  letter-spacing: 3px; 
+  font-weight: 600; 
+  margin: 0 0 1.2rem 0; 
+}
+
+.title { 
+  font-family: 'Playfair Display', serif; 
+  font-size: 4.2rem; 
+  font-weight: 400; 
+  line-height: 1.1; 
+  margin: 0 0 1.5rem 0; 
+  white-space: nowrap; 
+}
+
+.italic-pink { 
+  font-family: 'Playfair Display', serif;
+  font-style: italic; 
+  color: var(--pink-italic); 
+}
+
+.description { 
+  color: #c4cdce; 
+  font-size: 1.05rem; 
+  line-height: 1.6; 
+  margin: 0 0 2.5rem 0; 
+  max-width: 90%; 
+}
+
+.buttons-group { 
+  display: flex; 
+  gap: 1.5rem; 
+}
+
+.btn { 
+  padding: 1rem 2rem; 
+  border-radius: 2px; 
+  font-size: 0.95rem; 
+  font-weight: 500; 
+  cursor: pointer; 
+  font-family: 'Inter', sans-serif;
+  transition: all 0.3s ease;
+}
+
+.btn-primary { 
+  background-color: var(--gold); 
+  border: 1px solid var(--gold);
+  color: #0d2320; 
+}
+
+.btn-primary:hover { background-color: #c49d4b; }
+
+.btn-secondary { 
+  background-color: transparent; 
+  border: 1px solid rgba(255, 255, 255, 0.4); 
+  color: white; 
+}
+
+.btn-secondary:hover { background-color: rgba(255, 255, 255, 0.1); }
+
+.hero-visuals { 
+  display: flex; 
+  flex-direction: column; 
+  justify-content: center;
+}
+
+.images-container { 
+  display: flex; 
+  gap: 1.5rem; 
+  height: 480px; 
+}
+
+.img-placeholder { 
+  flex: 1; 
+  border-radius: 2px; 
+  background-color: #1a3c35; 
+  height: 85%; 
+}
+
+.img-placeholder.loto { align-self: flex-start; }
+.img-placeholder.koi { align-self: flex-end; }
+
+.info-card { 
+  margin-top: 1.5rem; 
+  border-top: 1px solid rgba(220, 179, 88, 0.4); 
+  padding-top: 1rem; 
+}
+
+.info-title { 
+  color: var(--gold); 
+  font-size: 0.75rem; 
+  letter-spacing: 2px; 
+  margin: 0 0 0.5rem 0; 
+}
+
+.info-desc { 
+  font-size: 0.9rem; 
+  margin: 0; 
+  color: #f5f5f5;
+}

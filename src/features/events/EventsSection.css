@@ -1,0 +1,250 @@
+.events-section {
+  background-color: #fdfcf8;
+  padding: 5rem 4rem;
+  color: #1a3c35;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Encabezado */
+.events-top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 3.5rem;
+  gap: 2rem;
+}
+
+.events-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  color: #5c756e;
+  margin: 0 0 0.4rem 0;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.events-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.4rem;
+  font-weight: 400;
+  margin: 0;
+  color: #1a3c35;
+  line-height: 1.1;
+}
+
+.events-title span {
+  font-family: 'Playfair Display', serif;
+}
+
+.events-title .italic-serif {
+  font-style: italic;
+  color: #1a3c35;
+}
+
+.events-top-desc {
+  max-width: 320px;
+  font-size: 0.9rem;
+  color: #6c7c79;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Grilla de dos columnas */
+.events-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+/* Tarjeta horizontal */
+.event-item-card {
+  background-color: white;
+  border: 1px solid #e5e3da;
+  border-radius: 2px;
+  overflow: hidden;
+  display: grid;
+  grid-template-columns: 210px 1fr;
+  min-height: 230px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.event-item-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Columna imagen */
+.event-img-wrap {
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  padding: 0.9rem;
+}
+
+.event-badge-tag {
+  display: inline-block;
+  font-size: 0.62rem;
+  font-weight: 700;
+  letter-spacing: 1px;
+  padding: 0.25rem 0.6rem;
+  border-radius: 2px;
+  text-transform: uppercase;
+}
+
+.event-badge-tag.taller {
+  background-color: #f7cbd6;
+  color: #1a3c35;
+}
+
+.event-badge-tag.evento {
+  background-color: #f1dd9d;
+  color: #1a3c35;
+}
+
+.event-badge-tag.masterclass {
+  background-color: #9cd7d0;
+  color: #1a3c35;
+}
+
+.event-badge-tag.festival {
+  background-color: #3b5f4c;
+  color: #f1dd9d;
+}
+
+/* Columna información */
+.event-content-wrap {
+  padding: 1.5rem 1.6rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.event-header-row {
+  display: flex;
+  gap: 1rem;
+  align-items: flex-start;
+}
+
+/* Bloque de fecha oscuro */
+.event-date-box {
+  background-color: #0d2320;
+  color: white;
+  min-width: 44px;
+  padding: 0.4rem 0.2rem;
+  border-radius: 2px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.ev-day {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.45rem;
+  line-height: 1;
+  font-weight: 500;
+}
+
+.ev-month {
+  font-size: 0.58rem;
+  letter-spacing: 1px;
+  color: #dcb358;
+  font-weight: 700;
+  margin-top: 2px;
+}
+
+.ev-year {
+  font-size: 0.52rem;
+  color: #7d9690;
+}
+
+.ev-heading {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0;
+  color: #0d2320;
+}
+
+.ev-summary {
+  font-size: 0.82rem;
+  color: #5f6e6b;
+  line-height: 1.45;
+  margin: 0.8rem 0 0.9rem 0;
+}
+
+/* Meta datos (horas y personas) */
+.ev-meta-row {
+  display: flex;
+  gap: 1rem;
+  font-size: 0.75rem;
+  color: #889995;
+  margin-bottom: 1.2rem;
+}
+
+.ev-meta-row span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Pie con precio y botón */
+.ev-footer-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #f2efe9;
+  padding-top: 0.8rem;
+  margin-top: auto;
+}
+
+.ev-price-tag {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  font-weight: 600;
+  color: #0d2320;
+}
+
+.btn-reserve-dark {
+  background-color: #0d2320;
+  color: white;
+  border: none;
+  padding: 0.55rem 1.1rem;
+  border-radius: 2px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  letter-spacing: 0.3px;
+  transition: background-color 0.2s ease;
+}
+
+.btn-reserve-dark:hover {
+  background-color: #1a3c35;
+}
+
+/* Adaptabilidad a pantallas pequeñas */
+@media (max-width: 1024px) {
+  .events-cards-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 640px) {
+  .events-section {
+    padding: 3.5rem 1.5rem;
+  }
+  .events-top-bar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .event-item-card {
+    grid-template-columns: 1fr;
+  }
+  .event-img-wrap {
+    min-height: 170px;
+  }
+}

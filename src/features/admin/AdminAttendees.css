@@ -1,0 +1,229 @@
+.admin-attendees-wrapper {
+  padding: 2.5rem 3rem;
+  font-family: 'Inter', sans-serif;
+  color: #1a3c35;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Encabezado */
+.admin-page-header {
+  margin-bottom: 2rem;
+}
+
+.admin-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 2px;
+  color: #889995;
+  text-transform: uppercase;
+  font-weight: 600;
+  display: block;
+  margin-bottom: 0.3rem;
+}
+
+.admin-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: #1a3c35;
+  margin: 0;
+  font-weight: 400;
+}
+
+.admin-title .italic-pink {
+  font-style: italic;
+  color: #dcb358; /* Tono dorado/elegante */
+}
+
+.admin-subtitle {
+  font-size: 0.85rem;
+  color: #6c7c79;
+  margin-top: 0.5rem;
+}
+
+/* Controles (Filtros y Búsqueda) */
+.attendees-controls {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1.2rem;
+  background: white;
+  padding: 1.2rem 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #e0dfd5;
+}
+
+.date-filter-group {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.date-pill-btn {
+  background: #fdfcf8;
+  border: 1px solid #e0dfd5;
+  color: #6c7c79;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s ease;
+}
+
+.date-pill-btn:hover {
+  border-color: #dcb358;
+  color: #1a3c35;
+}
+
+.date-pill-btn.active {
+  background-color: #1a3c35;
+  color: white;
+  border-color: #1a3c35;
+}
+
+.count-badge {
+  background-color: rgba(220, 179, 88, 0.2);
+  color: #bfa144;
+  padding: 0.1rem 0.5rem;
+  border-radius: 10px;
+  font-size: 0.7rem;
+  font-weight: 700;
+}
+
+.date-pill-btn.active .count-badge {
+  background-color: #dcb358;
+  color: #1a3c35;
+}
+
+/* Barra de búsqueda */
+.admin-search-box {
+  display: flex;
+  align-items: center;
+  background: #fdfcf8;
+  border: 1px solid #e0dfd5;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  width: 280px;
+}
+
+.admin-search-box .search-icon {
+  color: #889995;
+  margin-right: 0.6rem;
+}
+
+.admin-search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 0.85rem;
+  color: #1a3c35;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Contenedor de la Tabla Estilizada */
+.admin-table-container {
+  background: white;
+  border-radius: 8px;
+  border: 1px solid #e0dfd5;
+  overflow: hidden;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.02);
+}
+
+.admin-table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.admin-table th {
+  background-color: #f7f6f0;
+  padding: 1rem 1.2rem;
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  color: #889995;
+  font-weight: 600;
+  border-bottom: 1px solid #e0dfd5;
+}
+
+.admin-table td {
+  padding: 1.2rem;
+  border-bottom: 1px solid #f2efe9;
+  font-size: 0.88rem;
+  color: #1a3c35;
+  vertical-align: middle;
+}
+
+.admin-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-table tbody tr:hover {
+  background-color: #fcfbf9;
+}
+
+/* Elementos internos de celdas */
+.ticket-folio {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-family: monospace;
+  background-color: #f5f4f0;
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  color: #1a3c35;
+  font-weight: 600;
+}
+
+.table-client-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.client-name {
+  font-weight: 600;
+  color: #1a3c35;
+}
+
+.client-email {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.75rem;
+  color: #889995;
+}
+
+.date-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.82rem;
+  color: #6c7c79;
+}
+
+.places-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  background-color: #e6fcf5;
+  color: #0ca678;
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 3rem !important;
+  color: #889995;
+  font-style: italic;
+}

@@ -1,0 +1,175 @@
+.reservation-section {
+  background-color: #fdfcf8;
+  padding: 6rem 4rem;
+  color: var(--bg-dark-green);
+  border-top: 1px solid #e0dfd5;
+}
+
+.reservation-container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5rem;
+  align-items: start;
+}
+
+/* Columna Izquierda */
+.reservation-info-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.reservation-main-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.5rem;
+  font-weight: 400;
+  margin: 0 0 1.5rem 0;
+  color: #1a3c35;
+  line-height: 1.1;
+}
+
+.reservation-main-title .italic-pink {
+  font-family: 'Playfair Display', serif;
+  font-style: italic;
+  color: #b56b7c;
+}
+
+.reservation-desc {
+  font-size: 1rem;
+  color: #6c7c79;
+  line-height: 1.6;
+  margin: 0 0 3rem 0;
+  max-width: 90%;
+}
+
+.reservation-features {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.feature-item {
+  display: flex;
+  gap: 1.2rem;
+  align-items: flex-start;
+}
+
+.feature-icon-box {
+  background-color: rgba(26, 60, 53, 0.08);
+  color: #1a3c35;
+  padding: 0.8rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.feature-item h4 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.15rem;
+  margin: 0 0 0.3rem 0;
+  color: #1a3c35;
+}
+
+.feature-item p {
+  font-size: 0.85rem;
+  color: #6c7c79;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.reservation-image-preview {
+  height: 220px;
+  background-color: #d1d5db;
+  border-radius: 2px;
+  background-image: radial-gradient(circle, #e5a9b9 10%, transparent 10%);
+  background-size: 20px 20px;
+}
+
+/* Columna Derecha (Formulario) */
+.reservation-form-col {
+  background-color: #0d2320;
+  padding: 3rem;
+  border-radius: 3px;
+  box-shadow: 0 15px 35px rgba(0,0,0,0.15);
+}
+
+.res-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-kicker {
+  font-size: 0.75rem;
+  letter-spacing: 3px;
+  color: var(--gold);
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+}
+
+.form-row-double {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.7rem;
+  letter-spacing: 1.5px;
+  color: #a0aab2;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  background-color: rgba(255, 255, 255, 0.07);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 0.8rem 1rem;
+  border-radius: 2px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: white;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #6c807b;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--gold);
+}
+
+.form-group select option {
+  background-color: #0d2320;
+  color: white;
+}
+
+.btn-confirm-res {
+  margin-top: 1rem;
+  background-color: var(--gold);
+  border: none;
+  border-radius: 2px;
+  padding: 1.1rem;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  color: #0d2320;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-confirm-res:hover {
+  background-color: #c49d4b;
+}

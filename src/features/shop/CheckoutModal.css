@@ -1,0 +1,292 @@
+.checkout-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(13, 35, 32, 0.85);
+  z-index: 5000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.checkout-modal-content {
+  background-color: #fdfcf8;
+  width: 100%;
+  max-width: 850px;
+  border-radius: 4px;
+  position: relative;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+  color: #1a3c35;
+  overflow: hidden;
+}
+
+.checkout-close-btn {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #889995;
+  z-index: 10;
+  transition: color 0.3s;
+}
+
+.checkout-close-btn:hover {
+  color: #1a3c35;
+}
+
+/* Vista de Éxito */
+.checkout-success-view {
+  padding: 4rem 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+}
+
+.success-icon-anim {
+  color: #1a3c35;
+  margin-bottom: 0.5rem;
+}
+
+.checkout-success-view h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  margin: 0;
+  color: #1a3c35;
+}
+
+.checkout-success-view p {
+  font-size: 0.95rem;
+  color: #6c7c79;
+  max-width: 450px;
+  line-height: 1.6;
+  margin: 0;
+}
+
+.success-order-id {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--gold);
+  background-color: #0d2320;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  margin-top: 1rem;
+}
+
+/* Grid Principal del Checkout */
+.checkout-main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr;
+  min-height: 520px;
+}
+
+/* Panel Izquierdo: Resumen */
+.checkout-summary-pane {
+  background-color: #f4f3ee;
+  padding: 2.5rem;
+  border-right: 1px solid #e0dfd5;
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout-summary-pane h3 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  margin: 0 0 1.5rem 0;
+  color: #1a3c35;
+}
+
+.checkout-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+  max-height: 220px;
+  overflow-y: auto;
+  margin-bottom: 1.5rem;
+  padding-right: 0.5rem;
+}
+
+.checkout-item-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  color: #4a5c58;
+}
+
+.chk-item-price {
+  font-weight: 600;
+  color: #1a3c35;
+}
+
+.checkout-totals-box {
+  border-top: 1px solid #e0dfd5;
+  padding-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-top: auto;
+}
+
+.chk-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.9rem;
+  color: #6c7c79;
+}
+
+.chk-free {
+  color: #065f46;
+  font-weight: 600;
+}
+
+.chk-total {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #1a3c35;
+  border-top: 1px dashed #e0dfd5;
+  padding-top: 0.6rem;
+  margin-top: 0.2rem;
+}
+
+.checkout-secure-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  color: #5c756e;
+  margin-top: 1.5rem;
+}
+
+/* Panel Derecho: Formulario */
+.checkout-form-pane {
+  padding: 2.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.checkout-form-pane h2 {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  margin: 0 0 0.2rem 0;
+  color: #1a3c35;
+}
+
+.chk-subtitle {
+  font-size: 0.83rem;
+  color: #6c7c79;
+  margin: 0 0 1.5rem 0;
+}
+
+.payment-methods-tabs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.6rem;
+  margin-bottom: 1.5rem;
+}
+
+.pay-tab {
+  border: 1px solid #e0dfd5;
+  background-color: white;
+  padding: 0.6rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border-radius: 2px;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.3rem;
+  color: #6c7c79;
+  transition: all 0.3s;
+}
+
+.pay-tab.active {
+  border-color: #1a3c35;
+  background-color: rgba(26, 60, 53, 0.05);
+  color: #1a3c35;
+}
+
+.card-fields-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.chk-field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}
+
+.chk-field label {
+  font-size: 0.68rem;
+  letter-spacing: 1px;
+  color: #889995;
+  font-weight: 600;
+}
+
+.chk-field input {
+  padding: 0.7rem;
+  border: 1px solid #e0dfd5;
+  border-radius: 2px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.85rem;
+  color: #1a3c35;
+  outline: none;
+}
+
+.chk-row-double {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.transfer-info-box {
+  background-color: #f4f3ee;
+  border: 1px solid #e0dfd5;
+  padding: 1rem;
+  border-radius: 2px;
+  font-size: 0.83rem;
+  color: #4a5c58;
+  line-height: 1.5;
+}
+
+.transfer-info-box code {
+  background-color: #e0dfd5;
+  padding: 0.2rem 0.4rem;
+  border-radius: 2px;
+  font-family: monospace;
+}
+
+.transfer-note {
+  font-size: 0.75rem;
+  color: #889995;
+  margin-top: 0.5rem;
+}
+
+.btn-confirm-payment {
+  margin-top: 1.5rem;
+  width: 100%;
+  background-color: #0d2320;
+  color: white;
+  border: none;
+  padding: 0.9rem;
+  border-radius: 2px;
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+  font-size: 0.95rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.btn-confirm-payment:hover {
+  background-color: #1a3c35;
+}

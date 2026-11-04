@@ -1,0 +1,139 @@
+/* Estructura general de pantalla dividida */
+.admin-layout {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  min-height: 100vh;
+  background-color: #fdfcf8; /* Fondo claro para el área de contenido */
+  font-family: 'Inter', sans-serif;
+}
+
+/* =========================================
+   BARRA LATERAL (SIDEBAR)
+========================================= */
+.admin-sidebar {
+  background-color: #0b1f1c; /* Verde muy oscuro */
+  color: white;
+  display: flex;
+  flex-direction: column;
+  padding: 2.5rem 1.5rem;
+  border-right: 1px solid rgba(220, 179, 88, 0.2);
+}
+
+.admin-brand {
+  margin-bottom: 2.5rem;
+}
+
+.brand-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.8rem;
+  font-weight: 500;
+  margin: 0;
+  color: white;
+  line-height: 1.1;
+}
+
+.brand-title.italic-gold {
+  font-style: italic;
+  color: #dcb358; /* Dorado */
+}
+
+.admin-badge {
+  display: inline-block;
+  font-size: 0.6rem;
+  letter-spacing: 2px;
+  color: #dcb358;
+  font-weight: 600;
+  margin-top: 1rem;
+}
+
+.admin-user-info {
+  background-color: rgba(255, 255, 255, 0.05);
+  padding: 1rem;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-bottom: 2rem;
+  border-left: 2px solid #dcb358;
+}
+
+.user-label {
+  font-size: 0.7rem;
+  color: #8da39b;
+}
+
+.user-email {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: white;
+}
+
+/* Navegación lateral */
+.admin-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  flex-grow: 1;
+}
+
+.admin-nav-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  color: #8da39b;
+  padding: 0.8rem 1rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+  font-size: 0.85rem;
+  font-weight: 500;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.2s ease;
+}
+
+.admin-nav-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+}
+
+.admin-nav-btn.active {
+  background-color: rgba(220, 179, 88, 0.1);
+  border: 1px solid rgba(220, 179, 88, 0.3);
+  color: #dcb358;
+}
+
+/* Botón de Cerrar Sesión */
+.admin-logout-btn {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #8da39b;
+  padding: 0.8rem 1rem;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.6rem;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  margin-top: auto;
+}
+
+.admin-logout-btn:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+  color: white;
+  border-color: rgba(255, 255, 255, 0.3);
+}
+
+/* =========================================
+   ÁREA PRINCIPAL
+========================================= */
+.admin-main-content {
+  overflow-y: auto;
+  height: 100vh; /* Para que haga scroll independientemente de la barra lateral */
+}
+
+.admin-placeholder-module {
+  padding: 2rem 3rem;
+}

@@ -1,0 +1,571 @@
+/* =========================================
+   VARIABLES GLOBALES
+========================================= */
+:root {
+  --gold: #dcb358;
+  --dark-green: #0d2320;
+  --light-green: #1a3c35;
+  --bg-light: #fdfcf8;
+}
+
+/* =========================================
+   SECCIÓN PRINCIPAL Y ENCABEZADO
+========================================= */
+.product-section {
+  background-color: var(--bg-light);
+  padding: 5rem 4rem;
+  font-family: 'Inter', sans-serif;
+  color: var(--light-green);
+}
+
+.product-header-top {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.prod-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  color: #889995;
+  margin: 0 0 0.5rem 0;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.prod-main-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.4rem;
+  font-weight: 400;
+  margin: 0;
+  color: var(--light-green);
+}
+
+.prod-main-title .italic-pink {
+  font-style: italic;
+  color: #b56b7c;
+}
+
+/* =========================================
+   FILTROS Y BÚSQUEDA
+========================================= */
+.product-filters-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.filter-buttons-group {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.filter-btn {
+  background: white;
+  border: 1px solid #e0dfd5;
+  padding: 0.6rem 1.2rem;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: #6c7c79;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.filter-btn:hover {
+  border-color: var(--light-green);
+  color: var(--light-green);
+}
+
+.filter-btn.active {
+  background-color: var(--light-green);
+  color: white;
+  border-color: var(--light-green);
+}
+
+.product-search-box {
+  display: flex;
+  align-items: center;
+  background: white;
+  border: 1px solid #e0dfd5;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  width: 280px;
+}
+
+.product-search-box .search-icon {
+  color: #a0aab2;
+  margin-right: 0.5rem;
+}
+
+.product-search-box input {
+  border: none;
+  outline: none;
+  background: transparent;
+  width: 100%;
+  font-size: 0.85rem;
+  color: var(--light-green);
+}
+
+/* =========================================
+   GRILLA DE PRODUCTOS Y TARJETAS
+========================================= */
+.products-grid-layout {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.product-card-item {
+  background: white;
+  border: 1px solid #e5e3da;
+  border-radius: 4px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  display: flex;
+  flex-direction: column;
+}
+
+.product-card-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+
+.product-card-img {
+  height: 220px;
+  background-size: cover;
+  background-position: center;
+  background-color: #000;
+  position: relative;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.card-badge-pill {
+  background-color: var(--dark-green);
+  color: var(--gold);
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 0.3rem 0.6rem;
+  border-radius: 2px;
+  letter-spacing: 1px;
+}
+
+.card-stock-pill {
+  background-color: rgba(255,255,255,0.9);
+  color: var(--light-green);
+  font-size: 0.65rem;
+  font-weight: 600;
+  padding: 0.3rem 0.6rem;
+  border-radius: 2px;
+}
+
+.product-card-body {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.card-category-label {
+  font-size: 0.65rem;
+  letter-spacing: 1.5px;
+  color: #b56b7c;
+  text-transform: uppercase;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.card-product-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.4rem;
+  margin: 0 0 0.8rem 0;
+  color: var(--light-green);
+}
+
+.card-product-desc {
+  font-size: 0.85rem;
+  color: #6c7c79;
+  line-height: 1.5;
+  margin: 0 0 1.5rem 0;
+  flex-grow: 1;
+}
+
+.card-footer-flex {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid #f2efe9;
+  padding-top: 1rem;
+}
+
+.card-price-txt {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: var(--dark-green);
+}
+
+.card-price-txt small {
+  font-family: 'Inter', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 400;
+  color: #889995;
+}
+
+.btn-add-catalog {
+  background: var(--dark-green);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 2px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-add-catalog:hover {
+  background: var(--light-green);
+}
+
+/* =========================================
+   VENTANA EMERGENTE (MODAL)
+========================================= */
+.product-modal-overlay {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background-color: rgba(13, 35, 32, 0.85);
+  z-index: 6000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.product-modal-container-exact {
+  background-color: white;
+  width: 100%;
+  max-width: 950px;
+  border-radius: 4px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  position: relative;
+  box-shadow: 0 25px 50px rgba(0,0,0,0.3);
+  
+  /* Límite de altura para que no se salga de la pantalla */
+  max-height: 90vh;
+  overflow: hidden;
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1.2rem;
+  right: 1.2rem;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #889995;
+  z-index: 20;
+  transition: color 0.3s;
+}
+
+.modal-close-btn:hover { color: var(--dark-green); }
+
+/* Columna Izquierda (Imagen Fija) */
+.modal-img-column {
+  background-color: #000;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  height: 100%;
+}
+
+.modal-badge-top {
+  position: absolute; top: 1.5rem; left: 1.5rem;
+  background-color: rgba(255,255,255,0.9);
+  color: var(--dark-green);
+  padding: 0.4rem 0.8rem;
+  font-size: 0.7rem; font-weight: 700; border-radius: 2px;
+}
+
+/* Columna Derecha (Contenido con Scroll) */
+.modal-content-column {
+  padding: 3rem 2.5rem;
+  display: flex;
+  flex-direction: column;
+  
+  /* Activación de la barra de desplazamiento */
+  overflow-y: auto;
+  max-height: 90vh;
+}
+
+/* Estilo de la barra de desplazamiento del Modal */
+.modal-content-column::-webkit-scrollbar {
+  width: 6px;
+}
+.modal-content-column::-webkit-scrollbar-track {
+  background: #f5f4f0;
+  border-radius: 4px;
+}
+.modal-content-column::-webkit-scrollbar-thumb {
+  background: var(--gold);
+  border-radius: 4px;
+}
+
+.modal-category-kicker {
+  font-size: 0.7rem;
+  letter-spacing: 2px;
+  color: #a0aab2;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.modal-title-big {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.2rem;
+  color: var(--light-green);
+  margin: 0 0 1rem 0;
+  line-height: 1.1;
+}
+
+.modal-desc-text {
+  font-size: 0.9rem;
+  color: #6c7c79;
+  line-height: 1.5;
+  margin: 0 0 1.5rem 0;
+}
+
+.modal-top-price-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #f2efe9;
+  padding-bottom: 1.5rem;
+}
+
+.modal-main-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  color: var(--light-green);
+}
+
+.modal-unit-label {
+  font-size: 0.85rem;
+  color: #889995;
+}
+
+.modal-old-price {
+  font-size: 1rem;
+  color: #a0aab2;
+  text-decoration: line-through;
+  margin-left: 0.5rem;
+}
+
+.modal-stock-label {
+  margin-left: auto;
+  font-size: 0.85rem;
+  color: #6c7c79;
+}
+
+/* Pestañas de Características */
+.modal-tabs-line {
+  display: flex;
+  gap: 1.5rem;
+  border-bottom: 1px solid #f2efe9;
+  margin-bottom: 1.2rem;
+}
+
+.tab-item-btn {
+  background: none; border: none;
+  padding: 0 0 0.8rem 0;
+  font-size: 0.75rem; font-weight: 700; letter-spacing: 1px;
+  color: #a0aab2; cursor: pointer;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-item-btn.active {
+  color: var(--light-green);
+  border-bottom-color: var(--light-green);
+}
+
+.modal-chars-container {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  margin-bottom: 2rem;
+}
+
+.char-line {
+  display: flex; align-items: flex-start; gap: 0.5rem;
+  font-size: 0.85rem; color: #6c7c79;
+}
+
+.char-diamond { color: var(--gold); font-size: 0.6rem; margin-top: 3px; }
+
+/* Opciones (Tamaño/Color) */
+.size-header-bar {
+  display: flex; justify-content: space-between; margin-bottom: 0.8rem;
+}
+
+.sz-title-txt { font-size: 0.75rem; font-weight: 700; color: #a0aab2; letter-spacing: 1px;}
+.sz-measure-txt { font-size: 0.75rem; color: #6c7c79; }
+.sz-extra-price { color: #b56b7c; font-weight: 600; }
+
+/* Recepción */
+.reception-section-block {
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.reception-options-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.rec-card-item {
+  border: 1px solid #e0dfd5;
+  border-radius: 4px;
+  padding: 1rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  background: white;
+}
+
+.rec-card-item:hover { border-color: var(--gold); }
+.rec-card-item.selected {
+  border-color: var(--gold);
+  background-color: rgba(220, 179, 88, 0.05);
+}
+
+.rec-title-line { display: flex; align-items: center; gap: 0.4rem; font-size: 0.85rem; color: var(--light-green); margin-bottom: 0.2rem;}
+.rec-sub-txt { font-size: 0.75rem; color: #889995; display: block; margin-left: 1.3rem;}
+
+/* =========================================
+   NUEVO: SELECTOR DE FECHA Y HORA (AJUSTADO)
+========================================= */
+.pez-warning-text {
+  display: block;
+  margin-top: 0.6rem;
+  font-size: 0.72rem;
+  color: #b56b7c;
+  line-height: 1.4;
+  font-style: italic;
+  font-weight: 500;
+}
+
+.pickup-datetime-container {
+  margin-top: 0.8rem;
+  background-color: rgba(220, 179, 88, 0.05);
+  border: 1px dashed var(--gold);
+  padding: 0.8rem 1.2rem;
+  border-radius: 4px;
+}
+
+.pickup-label {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.7rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: var(--light-green);
+  margin-bottom: 0.6rem;
+}
+
+.pickup-date-input {
+  width: 100%;
+  padding: 0.5rem 0.8rem;
+  border: 1px solid #e0dfd5;
+  border-radius: 2px;
+  font-family: 'Inter', sans-serif;
+  color: var(--light-green);
+  margin-bottom: 1rem;
+  outline: none;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+
+.pickup-date-input:focus { border-color: var(--gold); }
+
+.pickup-time-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.5rem;
+}
+
+.time-slot-btn {
+  background: white;
+  border: 1px solid #e0dfd5;
+  padding: 0.5rem 0.3rem;
+  font-size: 0.72rem;
+  font-family: 'Inter', sans-serif;
+  border-radius: 2px;
+  cursor: pointer;
+  color: var(--light-green);
+  transition: all 0.2s;
+}
+
+.time-slot-btn:hover:not(.disabled) {
+  border-color: var(--gold);
+  background-color: rgba(220, 179, 88, 0.05);
+}
+
+.time-slot-btn.selected {
+  background-color: rgba(220, 179, 88, 0.15);
+  border-color: var(--gold);
+  font-weight: 600;
+  box-shadow: 0 0 0 1px var(--gold);
+}
+
+.time-slot-btn.disabled {
+  background-color: #f5f4f0;
+  color: #a0aab2;
+  text-decoration: line-through;
+  cursor: not-allowed;
+  border-color: #f0efeb;
+}
+
+.pickup-helper-text {
+  display: block; margin-top: 0.6rem; font-size: 0.65rem; color: #889995; font-style: italic;
+}
+
+/* =========================================
+   PIE DE MODAL (CANTIDAD Y BOTÓN)
+========================================= */
+.modal-footer-actions {
+  display: flex; gap: 1rem; margin-top: auto; padding-top: 1rem;
+}
+
+.quantity-stepper {
+  display: flex; align-items: center; border: 1px solid #e0dfd5; border-radius: 2px;
+}
+.quantity-stepper button {
+  background: transparent; border: none; padding: 0.8rem; cursor: pointer; color: var(--light-green);
+}
+.quantity-stepper span {
+  padding: 0 1rem; font-weight: 600; font-size: 0.9rem;
+}
+
+.btn-gold-action {
+  flex-grow: 1; background: var(--gold); color: var(--dark-green); border: none; border-radius: 2px;
+  font-weight: 700; font-size: 0.9rem; cursor: pointer; transition: filter 0.2s;
+}
+.btn-gold-action:hover { filter: brightness(1.05); }
+
+/* Responsivo del Modal */
+@media (max-width: 900px) {
+  .product-modal-container-exact { grid-template-columns: 1fr; }
+  .modal-img-column { height: 250px; }
+  .modal-content-column { padding: 2rem 1.5rem; }
+}
+

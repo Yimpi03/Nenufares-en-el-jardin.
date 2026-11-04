@@ -1,0 +1,325 @@
+.promo-section {
+  background-color: #0d2320;
+  padding: 5rem 4rem;
+  color: #ffffff;
+  font-family: 'Inter', sans-serif;
+  position: relative;
+}
+
+/* Encabezado */
+.promo-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 3.5rem;
+  gap: 2rem;
+}
+
+.promo-kicker {
+  font-size: 0.72rem;
+  letter-spacing: 3px;
+  color: #dcb358;
+  margin: 0 0 0.4rem 0;
+  text-transform: uppercase;
+  font-weight: 600;
+}
+
+.promo-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 3.4rem;
+  font-weight: 400;
+  margin: 0;
+  color: #ffffff;
+  line-height: 1.1;
+}
+
+.promo-title span {
+  font-family: 'Playfair Display', serif;
+}
+
+.promo-title .italic-pink {
+  font-style: italic;
+  color: #ebafbb;
+}
+
+.promo-header-desc {
+  max-width: 320px;
+  font-size: 0.88rem;
+  color: #889995;
+  line-height: 1.5;
+  margin: 0;
+}
+
+/* Cuadrícula de las 3 tarjetas */
+.promo-cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-bottom: 3rem;
+}
+
+.promo-card {
+  border-radius: 4px;
+  padding: 2.2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 380px;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.promo-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* Colores de las tarjetas */
+.promo-card.card-green {
+  background-color: #213f32;
+  border: 1px solid rgba(220, 179, 88, 0.15);
+}
+
+.promo-card.card-teal {
+  background-color: #2d6b7b;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.promo-card.card-dark {
+  background-color: #0f2b26;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+/* Marcas de agua decorativas en esquina superior */
+.promo-watermark {
+  position: absolute;
+  top: 1.5rem;
+  right: 1.5rem;
+  width: 95px;
+  height: 95px;
+  opacity: 0.18;
+  pointer-events: none;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-position: center;
+}
+
+.promo-watermark.leaf {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='1.5'%3E%3Cpath d='M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z'/%3E%3Cpath d='M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12'/%3E%3C/svg%3E");
+}
+
+.promo-watermark.lotus {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M12 3c-1.5 3-2 5.5-2 8.5a4 4 0 0 0 4 0C14 8.5 13.5 6 12 3z'/%3E%3Cpath d='M12 11.5c-2.5-3-5-4.5-8-4.5 1 3.5 3 6.5 6 8a4.5 4.5 0 0 0 2-3.5z'/%3E%3Cpath d='M12 11.5c2.5-3 5-4.5 8-4.5-1 3.5-3 6.5-6 8a4.5 4.5 0 0 1-2-3.5z'/%3E%3Cpath d='M5 16c2 1.5 4.5 2 7 2s5-.5 7-2c-1.5 2.5-4 4-7 4s-5.5-1.5-7-4z'/%3E%3C/svg%3E");
+}
+
+.promo-watermark.fish {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23ffffff'%3E%3Cpath d='M6.5 12c.94-3.46 4.94-6 8.5-6 3.56 0 6.06 2.54 7 6-.94 3.46-3.44 6-7 6-3.56 0-7.56-2.54-8.5-6z'/%3E%3Cpath d='M18 12c-1.5 0-3-.5-4-1.5'/%3E%3Ccircle cx='17' cy='10' r='1' fill='%230f2b26'/%3E%3Cpath d='M6.5 12 2 8v8l4.5-4z'/%3E%3C/svg%3E");
+}
+
+/* Contenido de tarjeta */
+.promo-badge {
+  display: inline-block;
+  font-size: 0.68rem;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  padding: 0.25rem 0.6rem;
+  border-radius: 2px;
+  margin-bottom: 1.2rem;
+}
+
+.card-green .promo-badge {
+  color: #dcb358;
+  border: 1px solid #dcb358;
+}
+
+.card-teal .promo-badge {
+  color: #e5f3f7;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+}
+
+.card-dark .promo-badge {
+  color: #f7aab7;
+  border: 1px solid rgba(247, 170, 183, 0.45);
+}
+
+.promo-card-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.85rem;
+  font-weight: 500;
+  margin: 0 0 0.35rem 0;
+  color: #ffffff;
+}
+
+.promo-card-subtitle {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 0 0 1.2rem 0;
+}
+
+.card-green .promo-card-subtitle {
+  color: #dcb358;
+}
+
+.card-teal .promo-card-subtitle {
+  color: #bde4ed;
+}
+
+.card-dark .promo-card-subtitle {
+  color: #f7aab7;
+}
+
+.promo-card-desc {
+  font-size: 0.85rem;
+  color: #c4d1cc;
+  line-height: 1.5;
+  margin: 0 0 1.8rem 0;
+}
+
+/* Precios */
+.promo-pricing-row {
+  display: flex;
+  align-items: baseline;
+  gap: 0.4rem;
+  margin-bottom: 1.2rem;
+}
+
+.promo-currency {
+  font-family: 'Playfair Display', serif;
+  font-size: 1.6rem;
+  color: #ffffff;
+}
+
+.promo-price {
+  font-family: 'Playfair Display', serif;
+  font-size: 2.5rem;
+  font-weight: 600;
+  color: #ffffff;
+  line-height: 1;
+}
+
+.promo-old-price {
+  font-size: 0.95rem;
+  color: #8da39b;
+  text-decoration: line-through;
+  margin-left: 0.4rem;
+}
+
+/* Botones Solicitar Paquete */
+.btn-solicitar {
+  width: 100%;
+  background: transparent;
+  padding: 0.85rem 1rem;
+  border-radius: 2px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.card-green .btn-solicitar {
+  border: 1px solid #dcb358;
+  color: #dcb358;
+}
+
+.card-green .btn-solicitar:hover {
+  background-color: #dcb358;
+  color: #0d2320;
+}
+
+.card-teal .btn-solicitar {
+  border: 1px solid #ffffff;
+  color: #ffffff;
+}
+
+.card-teal .btn-solicitar:hover {
+  background-color: #ffffff;
+  color: #1a3c35;
+}
+
+.card-dark .btn-solicitar {
+  border: 1px solid #f7aab7;
+  color: #f7aab7;
+}
+
+.card-dark .btn-solicitar:hover {
+  background-color: #f7aab7;
+  color: #0d2320;
+}
+
+/* Banner inferior Oferta Flash */
+.promo-flash-banner {
+  background-color: #071715;
+  border: 1px solid rgba(220, 179, 88, 0.25);
+  border-radius: 4px;
+  padding: 1.2rem 1.8rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1.5rem;
+}
+
+.flash-info {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.flash-badge {
+  font-size: 0.68rem;
+  letter-spacing: 1.5px;
+  color: #dcb358;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.flash-text {
+  margin: 0;
+  font-size: 0.88rem;
+  color: #d8e2de;
+}
+
+.flash-code {
+  color: #ffffff;
+  letter-spacing: 1px;
+}
+
+.btn-copy-code {
+  background-color: #dcb358;
+  color: #0d2320;
+  border: none;
+  padding: 0.7rem 1.4rem;
+  border-radius: 2px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-shrink: 0;
+  transition: filter 0.2s ease;
+}
+
+.btn-copy-code:hover {
+  filter: brightness(1.08);
+}
+
+/* Responsivo */
+@media (max-width: 1024px) {
+  .promo-cards-grid {
+    grid-template-columns: 1fr;
+  }
+  .promo-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+  .promo-flash-banner {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

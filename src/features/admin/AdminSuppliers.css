@@ -1,0 +1,24 @@
+.admin-suppliers-wrapper {
+  padding: 2.5rem 3rem;
+  font-family: 'Inter', sans-serif;
+  color: #1a3c35;
+  width: 100%;
+  box-sizing: border-box;
+}
+.suppliers-search-row {
+  margin-bottom: 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+}
+.supplier-icon-wrap {
+  width: 38px;
+  height: 38px;
+  background-color: #f5f4f0;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a3c35;
+  border: 1px solid #e0dfd5;
+  flex-shrink: 0;
+}   

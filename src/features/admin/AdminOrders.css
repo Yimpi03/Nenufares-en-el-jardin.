@@ -1,0 +1,103 @@
+.admin-orders-wrapper {
+  padding: 2.5rem 3rem;
+  font-family: 'Inter', sans-serif;
+  color: #1a3c35;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.orders-filters-row {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.order-filter-pill {
+  background: white;
+  border: 1px solid #e0dfd5;
+  color: #6c7c79;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.order-filter-pill:hover {
+  border-color: #dcb358;
+  color: #1a3c35;
+}
+
+.order-filter-pill.active {
+  background-color: #1a3c35;
+  color: white;
+  border-color: #1a3c35;
+}
+
+.order-id-tag {
+  font-family: monospace;
+  background: #f5f4f0;
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
+}
+
+.client-info-cell {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.c-name {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-weight: 600;
+  font-size: 0.85rem;
+}
+
+.c-email {
+  font-size: 0.75rem;
+  color: #889995;
+}
+
+.order-items-list {
+  margin: 0;
+  padding-left: 1rem;
+  font-size: 0.82rem;
+  color: #495057;
+}
+
+.status-pill {
+  padding: 0.25rem 0.6rem;
+  border-radius: 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-pill.procesando {
+  background-color: #fff3bf;
+  color: #f08c00;
+}
+
+.status-pill.enviado {
+  background-color: #e7f5ff;
+  color: #1971c2;
+}
+
+.status-pill.entregado {
+  background-color: #e6fcf5;
+  color: #0ca678;
+}
+
+.status-select {
+  padding: 0.4rem;
+  border: 1px solid #e0dfd5;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  background: #fdfcf8;
+  color: #1a3c35;
+  cursor: pointer;
+}
