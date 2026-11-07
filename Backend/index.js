@@ -147,7 +147,7 @@ app.post('/api/reservations',signedIn,wrap(async(req,res)=>{
 app.use((req,res)=>res.status(404).json({message:'Ruta no encontrada.'}));
 app.use((e,req,res,next)=>{void next;console.error(e.message);res.status(e.code==='23505'?409:e.status||500).json({message:e.code==='23505'?'Ese correo ya está registrado.':e.status?e.message:'Error de base de datos. Revisa la terminal del backend.'});});
 export async function initialize(){
- const db=await pool.connect();try{await db.query('BEGIN');await db.query('SELECT pg_advisory_xact_lock(972614)');await db.query(await readFile(new URL('./schema.sql',import.meta.url),'utf8'));await seed(db);await db.query('COMMIT');}catch(e){await db.query('ROLLBACK');throw e;}finally{db.release();}
+ const db=await pool.connect();try{await db.query('BEGIN');await db.query('SELECT pg_advisory_xact_lock(972614)');await db.query(await readFile(new URL('./schema.sql',import.meta.url),'utf8'));await seed(db);await db.query(await readFile(new URL('./catalog-images.sql',import.meta.url),'utf8'));await db.query('COMMIT');}catch(e){await db.query('ROLLBACK');throw e;}finally{db.release();}
 }
 if(process.env.NODE_ENV!=='test'){
  initialize().then(()=>{const port=Number(process.env.PORT)||4000;app.listen(port,'127.0.0.1',()=>console.log(`Backend local: http://localhost:${port} | PostgreSQL conectado`));}).catch(e=>{console.error('No se pudo iniciar:',e.message);process.exit(1);});

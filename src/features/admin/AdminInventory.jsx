@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Plus, Edit3, Trash2, Search, X } from 'lucide-react';
 import './AdminInventory.css';
+import CatalogImage from '../../components/common/CatalogImage';
 
 const AdminInventory = ({ productsData, setProductsData }) => {
   const [activeTab, setActiveTab] = useState('Todos');
@@ -170,7 +171,7 @@ const AdminInventory = ({ productsData, setProductsData }) => {
                 <tr key={prod.id}>
                   <td>
                     <div className="table-prod-info">
-                      <img src={prod.image} alt={prod.title} className="table-thumb" />
+                      <span className="catalog-table-image table-thumb"><CatalogImage image={prod.image} title={prod.title} category={prod.category} compact /></span>
                       <span className="prod-name">{prod.title}</span>
                     </div>
                   </td>

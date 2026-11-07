@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Clock, Users, MapPin } from 'lucide-react';
 import ReservationModal from './ReservationModal';
 import './EventsSection.css';
+import CatalogImage from '../../components/common/CatalogImage';
 
 const EventsSection = ({ eventsData }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -37,7 +38,7 @@ const EventsSection = ({ eventsData }) => {
 
             return (
               <article key={ev.id} className="event-item-card">
-                <div className="event-img-wrap" style={{ backgroundImage: `url(${ev.image})` }}>
+                <div className="event-img-wrap"><CatalogImage image={ev.image} title={ev.title} kind="event" />
                   <span className={`event-badge-tag ${(ev.badge || 'EVENTO').toLowerCase()}`}>
                     {ev.badge || 'EVENTO'}
                   </span>

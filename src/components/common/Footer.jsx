@@ -43,7 +43,7 @@ const Footer = () => {
       <div className="footer-bottom-bar">
         <div className="footer-bottom-content">
           <span className="footer-copy">© 2026 Nenufares en el Jardín · TODOS LOS DERECHOS RESERVADOS</span>
-          <div className="footer-badges">
+          <div className="footer-badges"><a href="/creditos-imagenes.html" target="_blank" rel="noreferrer">Créditos de imágenes</a>
             <span>CULTIVO RESPONSABLE</span>
             <span>·</span>
             <span>ESPECIE CERTIFICADA</span>

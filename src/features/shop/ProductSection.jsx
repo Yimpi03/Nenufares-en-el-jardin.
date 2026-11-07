@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { X, Minus, Plus, Truck, Plane, Store, Search, Clock, Calendar } from 'lucide-react'; // <-- Añadido Plane
 import './ProductSection.css';
+import CatalogImage from '../../components/common/CatalogImage';
 
 
 // Opciones de horarios para recolección
@@ -129,7 +130,7 @@ const ProductSection = ({ onAddToCart, productsData = [] }) => {
       <div className="products-grid-layout">
         {filteredProducts.map((product) => (
           <article key={product.id} className="product-card-item" onClick={() => handleOpenModal(product)}>
-            <div className={`product-card-img ${product.image}`} style={{ backgroundImage: /^https?:/.test(product.image) ? `url(${product.image})` : undefined }}>
+            <div className="product-card-img"><CatalogImage image={product.image} title={product.name} category={product.category} />
               {product.badge && <span className="card-badge-pill">{product.badge}</span>}
               <span className="card-stock-pill">{product.stock} disponibles</span>
             </div>
@@ -159,7 +160,7 @@ const ProductSection = ({ onAddToCart, productsData = [] }) => {
               <X size={20} />
             </button>
 
-            <div className={`modal-img-column ${selectedProduct.image}`} style={{ backgroundImage: /^https?:/.test(selectedProduct.image) ? `url(${selectedProduct.image})` : undefined }}>
+            <div className="modal-img-column"><CatalogImage image={selectedProduct.image} title={selectedProduct.name} category={selectedProduct.category} />
               {selectedProduct.badge && <span className="modal-badge-top">{selectedProduct.badge}</span>}
               {selectedProduct.discountBadge && <span className="modal-badge-bottom">{selectedProduct.discountBadge}</span>}
             </div>

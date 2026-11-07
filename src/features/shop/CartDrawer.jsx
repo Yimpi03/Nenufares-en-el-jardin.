@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { X, Minus, Plus, Check, ArrowRight } from 'lucide-react';
 import CheckoutModal from './CheckoutModal'; // <-- Importamos el modal de pago
 import './CartDrawer.css';
+import CatalogImage from '../../components/common/CatalogImage';
 
 const CartDrawer = ({ isOpen, onClose, cartItems, setCartItems }) => {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false); // Estado para abrir la pasarela de pagos
@@ -45,7 +46,7 @@ const CartDrawer = ({ isOpen, onClose, cartItems, setCartItems }) => {
           ) : (
             cartItems.map((item) => (
               <div key={item.lineId} className="cart-item">
-                <div className={`item-image ${item.image}`}></div>
+                <div className="item-image"><CatalogImage image={item.image} title={item.name || item.title} category={item.category} compact /></div>
                 
                 <div className="item-details">
                   <div className="item-title-row">
