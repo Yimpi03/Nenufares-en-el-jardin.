@@ -55,7 +55,8 @@ const PromoSection = ({ onAddToCart }) => {
         name: `${promo.title} (${promo.subtitle})`,
         price: promo.price,
         category: 'Paquete',
-        reception: promo.title.includes('Koi') ? 'pickup' : 'delivery'
+        shippingType: 'pickup',
+        reception: 'pickup'
       }, 1);
     }
   };
@@ -110,7 +111,7 @@ const PromoSection = ({ onAddToCart }) => {
         <div className="flash-info">
           <span className="flash-badge">OFERTA FLASH · 48 HORAS</span>
           <p className="flash-text">
-            10% adicional en tu primera compra con el código: <strong className="flash-code">{couponCode}</strong>
+            Código de demostración, sin descuento automático: <strong className="flash-code">{couponCode}</strong>
           </p>
         </div>
         <button type="button" className="btn-copy-code" onClick={handleCopyCode}>

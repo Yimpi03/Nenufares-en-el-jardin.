@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { api } from '../../api';
 import { X, ArrowLeft, Mail, Lock, User } from 'lucide-react';
 import './AuthModal.css';
 
@@ -20,43 +21,20 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleAuthSubmit = (e) => {
+  const handleAuthSubmit = async (e) => {
     e.preventDefault();
-    
-    if (authMode === 'register') {
-      setMessage('¡Cuenta creada con éxito! Ya puedes iniciar sesión.');
-      setTimeout(() => {
-        setMessage('');
-        setAuthMode('login');
-      }, 2000);
-    } else if (authMode === 'login') {
-      // --- VALIDACIÓN DE ADMINISTRADOR ---
-      if (formData.email.trim().toLowerCase() === 'admin@floresfinas.mx') {
-        setMessage('¡Acceso concedido como Administrador!');
-        setTimeout(() => {
-          setMessage('');
-          // Pasamos el rol de admin al componente principal App.jsx
-          onLoginSuccess(formData.email, 'admin');
-          onClose();
-        }, 1200);
-        return;
+    if (e.currentTarget.dataset.busy) return;
+    const form=e.currentTarget;form.dataset.busy='yes';setMessage('Conectando…');
+    try {
+      if(authMode === 'forgot') {setMessage('El envío de correos no está configurado en local. Contacta al administrador.');return;}
+      if(authMode === 'register') {
+        const result=await api('/register',{method:'POST',body:formData});
+        setMessage(result.message);setAuthMode('login');setFormData({...formData,password:''});
+      } else {
+        const result=await api('/login',{method:'POST',body:{email:formData.email,password:formData.password}});
+        await onLoginSuccess(result.user.email,result.user.role);setMessage('');setFormData({...formData,password:''});onClose();
       }
-
-      // --- INICIO DE SESIÓN DE CLIENTE NORMAL ---
-      setMessage('¡Bienvenido de nuevo a Flores Finas!');
-      setTimeout(() => {
-        setMessage('');
-        onLoginSuccess(formData.email, 'client');
-        onClose();
-      }, 1200);
-
-    } else if (authMode === 'forgot') {
-      setMessage('Se han enviado las instrucciones de restablecimiento a tu correo.');
-      setTimeout(() => {
-        setMessage('');
-        setAuthMode('login');
-      }, 2500);
-    }
+    } catch(error) {setMessage(error.message);} finally {delete form.dataset.busy;}
   };
 
   return (
@@ -186,7 +164,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
                   <input 
                     type="password" 
                     name="password" 
-                    placeholder="Mínimo 6 caracteres" 
+                    placeholder="Mínimo 8 caracteres" minLength={8} 
                     value={formData.password} 
                     onChange={handleChange} 
                     required 

@@ -1,0 +1,7 @@
+.catalog-photo { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; display:block; }
+.catalog-photo-label { position:absolute; bottom:8px; left:8px; z-index:1; padding:3px 6px; background:rgba(13,35,32,.72); color:#fff; font:10px/1.4 Arial,sans-serif; border-radius:3px; }
+.product-card-img,.modal-img-column,.event-img-wrap,.ev-modal-img,.item-image,.catalog-table-image { position:relative; overflow:hidden; background-color:#e5ece5; }
+.product-card-img>.card-badge-pill,.product-card-img>.card-stock-pill,.modal-img-column>.modal-badge-top,.event-img-wrap>.event-badge-tag { z-index:2; }
+.product-card-img>.card-badge-pill,.product-card-img>.card-stock-pill { position:relative; }
+.catalog-table-image { display:inline-block; flex-shrink:0; }
+.catalog-table-image.table-thumb { width:48px; height:48px; }
