@@ -5,11 +5,13 @@ import cors from 'cors';
 import bcrypt from 'bcryptjs';
 import { randomBytes, createHash, randomUUID } from 'node:crypto';
 import { readFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
 import pool from './db.js';
 import { seed } from './seed.js';
 
 export const app = express();
-const origin = process.env.FRONTEND_URL || 'http://localhost:5173';
+const origin = process.env.FRONTEND_URL || process.env.RENDER_EXTERNAL_URL || 'http://localhost:5173';
+if(process.env.RENDER) app.set('trust proxy',1);
 app.use(cors({ origin, credentials: true }));
 app.use(express.json({limit:'1mb'}));
 app.use((req,res,next)=>{
@@ -21,7 +23,7 @@ const fail = (message,status=400) => { const e=new Error(message); e.status=stat
 const text = (v,max=200) => typeof v==='string' && v.trim().length>0 && v.trim().length<=max;
 const emailOK = v => text(v,254) && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v);
 const wrap = fn => (req,res,next)=>Promise.resolve(fn(req,res)).catch(next);
-const cookie = (res,token,age=86400) => res.setHeader('Set-Cookie',`nenufares_session=${token}; HttpOnly; SameSite=Lax; Path=/api; Max-Age=${age}`);
+const cookie = (res,token,age=86400) => res.setHeader('Set-Cookie',`nenufares_session=${token}; HttpOnly; SameSite=Lax; Path=/api; Max-Age=${age}${process.env.NODE_ENV === 'production' ? '; Secure' : ''}`);
 // Limit authentication attempts per local client without logging passwords.
 const attempts=new Map();
 setInterval(()=>{ for(const [k,v] of attempts) if(v.until<Date.now()) attempts.delete(k); },60000).unref();
@@ -144,11 +146,12 @@ app.post('/api/reservations',signedIn,wrap(async(req,res)=>{
  await db.query('COMMIT');res.status(201).json({id,ticketIds:Array.from({length:tickets},(_,i)=>`${id}-${i+1}`)});
  }catch(e){await db.query('ROLLBACK');throw e;}finally{db.release();}
 }));
+if(process.env.NODE_ENV==='production')app.use(express.static(fileURLToPath(new URL('../dist/',import.meta.url))));
 app.use((req,res)=>res.status(404).json({message:'Ruta no encontrada.'}));
 app.use((e,req,res,next)=>{void next;console.error(e.message);res.status(e.code==='23505'?409:e.status||500).json({message:e.code==='23505'?'Ese correo ya está registrado.':e.status?e.message:'Error de base de datos. Revisa la terminal del backend.'});});
 export async function initialize(){
  const db=await pool.connect();try{await db.query('BEGIN');await db.query('SELECT pg_advisory_xact_lock(972614)');await db.query(await readFile(new URL('./schema.sql',import.meta.url),'utf8'));await seed(db);await db.query(await readFile(new URL('./catalog-images.sql',import.meta.url),'utf8'));await db.query('COMMIT');}catch(e){await db.query('ROLLBACK');throw e;}finally{db.release();}
 }
 if(process.env.NODE_ENV!=='test'){
- initialize().then(()=>{const port=Number(process.env.PORT)||4000;app.listen(port,'127.0.0.1',()=>console.log(`Backend local: http://localhost:${port} | PostgreSQL conectado`));}).catch(e=>{console.error('No se pudo iniciar:',e.message);process.exit(1);});
+ initialize().then(()=>{const port=Number(process.env.PORT)||4000;app.listen(port,process.env.RENDER?'0.0.0.0':'127.0.0.1',()=>console.log(`Servidor iniciado en puerto ${port} | PostgreSQL conectado`));}).catch(e=>{console.error('No se pudo iniciar:',e.message);process.exit(1);});
 }

@@ -1,0 +1,28 @@
+services:
+  - type: web
+    name: nenufares-jardin-app
+    runtime: node
+    plan: free
+    region: oregon
+    repo: https://github.com/Yimpi03/Nenufares-en-el-jardin.
+    branch: render-postgres
+    buildCommand: npm ci && npm run build && npm --prefix Backend ci
+    startCommand: node Backend/index.js
+    healthCheckPath: /api/health
+    autoDeployTrigger: commit
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: nenufares-jardin-db
+          property: connectionString
+
+databases:
+  - name: nenufares-jardin-db
+    plan: 0.1c-256mb
+    region: oregon
+    databaseName: nenufares_db
+    postgresMajorVersion: '18'
+    diskSizeGB: 1
+    ipAllowList: []
