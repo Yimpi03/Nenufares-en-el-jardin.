@@ -1,0 +1,74 @@
+CONEXION LOCAL - NENUFARES EN EL JARDIN
+
+1. Deten el backend y el frontend con Ctrl+C.
+2. Extrae la carpeta conexion-local del ZIP dentro de:
+   C:\Codigos\HTml\Nenufares-en-el-jardin
+   Debe quedar: Nenufares-en-el-jardin\conexion-local\aplicar.cmd
+3. Abre aplicar.cmd y espera a que termine. Requiere Node.js e internet para npm.
+   Conserva Backend\.env y crea respaldo de los archivos reemplazados en .local-backups.
+4. Terminal 1:
+   cd /d C:\Codigos\HTml\Nenufares-en-el-jardin\Backend
+   npm run dev
+5. Terminal 2:
+   cd /d C:\Codigos\HTml\Nenufares-en-el-jardin
+   npm run dev
+6. Abre http://localhost:5173 (usa siempre localhost, no 127.0.0.1).
+
+PostgreSQL debe estar encendido. El archivo Backend\.env debe conservar:
+PORT=4000
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=nenufares_db
+DB_USER=postgres
+DB_PASSWORD="tu contraseña actual"
+FRONTEND_URL=http://localhost:5173
+No compartas este archivo ni su contenido.
+
+PRIMER USO
+El backend agrega las tablas auxiliares necesarias sin borrar las seis tablas existentes.
+Carga una sola vez 10 productos, 2 eventos y 2 proveedores del catalogo original.
+Si esos identificadores ya existen, conserva esos registros.
+No importa datos guardados en localStorage ni elimina esas claves del navegador.
+Registro y login ahora usan usuarios, nombre, apellido y rol, como el esquema de pgAdmin.
+Las cuentas antiguas de una tabla users diferente no se migran automaticamente.
+
+ADMINISTRADOR
+Registra tu propia cuenta desde la pagina. No hay correo ni contraseña de administrador por defecto.
+En una tercera terminal:
+cd /d C:\Codigos\HTml\Nenufares-en-el-jardin\Backend
+npm run admin -- tu-correo@ejemplo.com
+Sustituye el correo por el que registraste. Cierra sesion y vuelve a entrar.
+Nadie obtiene permisos solo por escribir admin@floresfinas.mx.
+
+COMPROBACION
+- Registra una cuenta e inicia sesion.
+- Crea un pedido: se guarda, descuenta stock y aparece en Mi perfil.
+- Crea una reserva: respeta cupo y aparece en Lista de Asistentes del administrador.
+- Edita un producto, evento o proveedor como administrador, recarga y comprueba persistencia.
+- Abre otro navegador: el catalogo procede de la misma base de datos.
+- Cancela un pedido como administrador para devolver su stock una sola vez.
+
+ALCANCE
+Todo se ejecuta en tu PC. No hay cambios en GitHub ni Render.
+No se ejecuta ningun git push. El paquete no contiene contraseñas ni .env.
+Las sesiones duran un dia, se guardan en PostgreSQL y usan cookie HttpOnly.
+El carrito es temporal; los pedidos confirmados son persistentes.
+Pedidos y reservas quedan con pago pendiente: no hay cobros ni se solicitan tarjetas.
+No se envian correos ni se simula un envio de recuperacion de contraseña.
+Las promociones son paquetes de demostracion con precio validado por el servidor;
+no descuentan componentes individuales del inventario. El cupon es demostrativo.
+Las opciones de entrega y horarios son configuracion fija, no cupos de transporte.
+
+SEGURIDAD DE ARCHIVOS
+El .gitignore incluye .env, pero si ya estaba publicado en GitHub sigue en el historial.
+Para dejar de seguirlo en futuros commits, desde la raiz:
+git rm --cached -- Backend/.env
+El comando conserva el archivo local; no limpia versiones anteriores.
+Si una contraseña publicada sigue vigente, cambiala y actualiza los proyectos que la usen.
+
+VALIDACION DEL PAQUETE
+Compilacion Vite y ESLint correctos.
+API probada con PostgreSQL embebido PGlite en entorno separado: no se accedio a tu PC.
+Se comprobaron migraciones repetibles, registro, bcrypt, login, sesiones, permisos,
+aislamiento de pedidos, precios del servidor, stock, rollback, cupos, administracion y logout.
+La conexion a tu PostgreSQL local se verifica cuando ejecutes el backend actualizado.

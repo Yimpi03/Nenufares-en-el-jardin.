@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { api } from '../../api';
 import { X, User, MapPin, Package, Truck, CheckCircle, Edit2, Save, LogOut } from 'lucide-react';
 import './UserProfileModal.css';
 
@@ -6,48 +7,18 @@ const UserProfileModal = ({ isOpen, onClose, userEmail, userName, onLogout }) =>
   const [activeTab, setActiveTab] = useState('orders'); // 'orders' o 'address'
 
   // Estado para la dirección de envío (permite editarla)
-  const [address, setAddress] = useState({
-    street: 'Av. del Lago 248',
-    colony: 'Col. La Guadalupana',
-    city: 'Xochimilco, CDMX',
-    zip: '16000'
-  });
-
+  const [address,setAddress]=useState({street:'',colony:'',city:'',zip:''});
   const [isEditingAddress, setIsEditingAddress] = useState(false);
   const [tempAddress, setTempAddress] = useState(address);
   const [successMsg, setSuccessMsg] = useState('');
 
-  // Simulación de pedidos realizados por el usuario con seguimiento de recorrido
-  const [orders] = useState([
-    {
-      id: 'AF-2026-891',
-      date: '25 de Agosto, 2026',
-      items: '3x Nenúfar Rosa Gigante, 2x Carpa Koi Kohaku',
-      total: '$253.50',
-      status: 'En camino',
-      step: 2,
-      trackingDetails: 'Repartidor asignado: Carlos M. · Ruta Xochimilco-Centro'
-    },
-    {
-      id: 'AF-2026-742',
-      date: '10 de Agosto, 2026',
-      items: '1x Estanque Completo (Paquete Fundador)',
-      total: '$229.00',
-      status: 'Entregado',
-      step: 3,
-      trackingDetails: 'Entregado con éxito en domicilio.'
-    }
-  ]);
-
-  if (!isOpen) return null;
-
-  const handleSaveAddress = (e) => {
-    e.preventDefault();
-    setAddress(tempAddress);
-    setIsEditingAddress(false);
-    setSuccessMsg('¡Dirección actualizada correctamente!');
-    setTimeout(() => setSuccessMsg(''), 3000);
-  };
+  const [orders,setOrders]=useState([]);
+  useEffect(()=>{if(!isOpen)return;Promise.all([api('/orders'),api('/address')]).then(([orders,a])=>{
+   setOrders(orders.map(o=>({...o,total:`$${o.total.toFixed(2)}`,items:o.items.map(i=>`${i.quantity}x ${i.title}`).join(', '),step:o.status==='Entregado'?3:o.status==='Enviado'?2:o.status==='Cancelado'?0:1,trackingDetails:o.status==='Cancelado'?'Pedido cancelado.':'Pago pendiente. Estado: '+o.status})));
+   const value={street:'',colony:'',city:'',zip:'',...a};setAddress(value);setTempAddress(value);
+  }).catch(e=>setSuccessMsg(e.message));},[isOpen]);
+  if(!isOpen)return null;
+  const handleSaveAddress=async e=>{e.preventDefault();try{const saved=await api('/address',{method:'PUT',body:tempAddress});setAddress(saved);setIsEditingAddress(false);setSuccessMsg('Dirección guardada.');}catch(e){setSuccessMsg(e.message);}};
 
   const handleLogoutClick = () => {
     onLogout && onLogout();

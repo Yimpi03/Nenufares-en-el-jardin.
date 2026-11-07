@@ -60,7 +60,7 @@ const EventsSection = ({ eventsData }) => {
                     
                     <span>
                       <Users size={13} /> 
-                      {typeof ev.capacity === 'number' ? `${ev.capacity} disponibles` : (ev.capacity || 'Entrada libre')}
+                      {typeof ev.capacity === 'number' ? `${ev.remaining ?? ev.capacity} disponibles` : (ev.capacity || 'Entrada libre')}
                     </span>
 
                     <span><MapPin size={13} /> {ev.location}</span>

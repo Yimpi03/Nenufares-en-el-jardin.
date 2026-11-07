@@ -4,17 +4,15 @@ import AuthModal from './AuthModal';
 import UserProfileModal from './UserProfileModal';
 import './Navbar.css';
 
-const Navbar = ({ onOpenCart, cartCount, userSession, setUserSession }) => {
+const Navbar = ({ onOpenCart, cartCount, userSession, onSessionChange, onLogout }) => {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   // Recibe el correo y el rol ('admin' o 'client') desde el modal de Auth
-  const handleLoginSuccess = (email, role) => {
-    setUserSession({ email, role });
-  };
+  const handleLoginSuccess = async () => { await onSessionChange(); };
 
   const handleLogout = () => {
-    setUserSession(null);
+    onLogout();
   };
 
   return (

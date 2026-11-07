@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+
+# Credenciales y copias locales
+.env
+.env.*
+!.env.example
+.local-backups/
+conexion-local/

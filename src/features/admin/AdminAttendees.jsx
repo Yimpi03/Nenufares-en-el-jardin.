@@ -1,40 +1,13 @@
-import  { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { api } from '../../api';
 import { Calendar, Users, Mail, Ticket, Search } from 'lucide-react';
 import './AdminAttendees.css';
 
-// Base de datos simulada de asistentes registrados (puedes conectarla con tus compras reales después)
-const initialAttendees = [
-  {
-    id: 'FF-X8K9-1',
-    name: 'Marisa Ramirez',
-    email: 'marisaramh.09@gmail.com',
-    eventTitle: 'Taller de Diseño de Estanques en Teya',
-    date: '25 Oct 2026',
-    places: 2,
-    totalPaid: '$1,000 MXN'
-  },
-  {
-    id: 'FF-A4T2-1',
-    name: 'Carlos Mendoza',
-    email: 'carlos@ejemplo.com',
-    eventTitle: 'Taller de Diseño de Estanques en Teya',
-    date: '25 Oct 2026',
-    places: 1,
-    totalPaid: '$500 MXN'
-  },
-  {
-    id: 'FF-M9L1-2',
-    name: 'Jessica Canche',
-    email: 'jessica@ejemplo.com',
-    eventTitle: 'Masterclass: Jardín Zen con Lotos',
-    date: '04 Nov 2026',
-    places: 3,
-    totalPaid: '$1,800 MXN'
-  }
-];
 
 const AdminAttendees = () => {
-  const [attendees] = useState(initialAttendees);
+  const [attendees,setAttendees]=useState([]);
+  const [error,setError]=useState('');
+  useEffect(()=>{api('/attendees').then(setAttendees).catch(e=>setError(e.message));},[]);
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedDate, setSelectedDate] = useState('Todas');
 
@@ -56,7 +29,7 @@ const AdminAttendees = () => {
   };
 
   return (
-    <div className="admin-attendees-wrapper">
+    <div className="admin-attendees-wrapper">{error && <p role="alert">{error}</p>}
       <div className="admin-page-header">
         <span className="admin-kicker">CONTROL DE ASISTENCIA</span>
         <h1 className="admin-title">

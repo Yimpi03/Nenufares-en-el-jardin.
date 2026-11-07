@@ -9,7 +9,7 @@ const CartDrawer = ({ isOpen, onClose, cartItems, setCartItems }) => {
   const updateQuantity = (id, change) => {
     setCartItems(items => 
       items.map(item => {
-        if (item.id === id) {
+        if (item.lineId === id) {
           const newQuantity = Math.max(1, item.quantity + change);
           return { ...item, quantity: newQuantity };
         }
@@ -19,7 +19,7 @@ const CartDrawer = ({ isOpen, onClose, cartItems, setCartItems }) => {
   };
 
   const removeItem = (id) => {
-    setCartItems(items => items.filter(item => item.id !== id));
+    setCartItems(items => items.filter(item => item.lineId !== id));
   };
 
   const subtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
@@ -44,13 +44,13 @@ const CartDrawer = ({ isOpen, onClose, cartItems, setCartItems }) => {
             <p className="empty-cart-text">Tu carrito está vacío</p>
           ) : (
             cartItems.map((item) => (
-              <div key={item.id} className="cart-item">
+              <div key={item.lineId} className="cart-item">
                 <div className={`item-image ${item.image}`}></div>
                 
                 <div className="item-details">
                   <div className="item-title-row">
                     <h4>{item.name || item.title}</h4>
-                    <button className="btn-remove-item" onClick={() => removeItem(item.id)}>
+                    <button className="btn-remove-item" onClick={() => removeItem(item.lineId)}>
                       <X size={14} />
                     </button>
                   </div>
@@ -58,9 +58,9 @@ const CartDrawer = ({ isOpen, onClose, cartItems, setCartItems }) => {
                   
                   <div className="item-controls-row">
                     <div className="quantity-selector">
-                      <button onClick={() => updateQuantity(item.id, -1)}><Minus size={14} /></button>
+                      <button onClick={() => updateQuantity(item.lineId, -1)}><Minus size={14} /></button>
                       <span>{item.quantity}</span>
-                      <button onClick={() => updateQuantity(item.id, 1)}><Plus size={14} /></button>
+                      <button onClick={() => updateQuantity(item.lineId, 1)}><Plus size={14} /></button>
                     </div>
                     <span className="item-total-price">
                       ${(item.price * item.quantity).toFixed(2)}

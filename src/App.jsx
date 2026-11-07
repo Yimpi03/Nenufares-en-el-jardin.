@@ -1,4 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
+import { api } from './api';
+import { useCatalogCollection } from './useCatalogCollection';
 // Componentes globales (common)
 import Navbar from './components/common/Navbar';
 import Footer from './components/common/Footer';
@@ -16,169 +18,42 @@ import LocationSection from "./components/pages/LocationSection";
 
 import './App.css';
 
-// Base de datos inicial por defecto para Eventos
-const initialEvents = [
-  {
-    id: 1,
-    badge: 'TALLER',
-    day: '25',
-    month: 'OCT',
-    year: '2026',
-    title: 'Taller de Diseño de Estanques en Teya',
-    description: 'Aprende desde cero cómo planificar y plantar tu propio ecosistema acuático. Edición especial en Teya.',
-    time: '10:00 - 14:00 hrs',
-    capacity: 15,
-    price: '$500 MXN',
-    numericPrice: 500,
-    location: 'Hacienda Teya, Yucatán',
-    image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=800&auto=format&fit=crop'
-  },
-  {
-    id: 2,
-    badge: 'EVENTO',
-    day: '12',
-    month: 'NOV',
-    year: '2026',
-    title: 'Exhibición Anual de Koi',
-    description: 'Ven a conocer a nuestros mejores ejemplares campeones. Habrá charlas sobre nutrición y salud de los peces.',
-    time: '09:00 - 18:00 hrs',
-    capacity: 'Entrada libre',
-    price: 'Gratis',
-    numericPrice: 0,
-    location: 'Vivero Flores Finas, Pomuch',
-    image: 'https://images.unsplash.com/photo-1511516246830-1c6ce4b38d38?q=80&w=800&auto=format&fit=crop'
-  }
-];
-
-// Base de datos inicial por defecto para Productos / Inventario
-const initialProducts = [
-  {
-    id: 1,
-    title: 'Nenúfar Rosa Gigante',
-    category: 'NENÚFAR',
-    price: 28.50,
-    stock: 12,
-    image: 'https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=800&auto=format&fit=crop',
-    description: 'Hermoso ejemplar de floración rosada amplia, ideal para estanques medianos y grandes.'
-  },
-  {
-    id: 2,
-    title: 'Loto Sagrado Blanco',
-    category: 'LOTO',
-    price: 32.00,
-    stock: 8,
-    image: 'https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop',
-    description: 'Loto tradicional de pétalos blancos impuros y gran significado ornamental.'
-  },
-  {
-    id: 3,
-    title: 'Carpa Koi Kohaku',
-    category: 'PEZ',
-    price: 85.00,
-    stock: 6,
-    image: 'https://images.unsplash.com/photo-1511516246830-1c6ce4b38d38?q=80&w=800&auto=format&fit=crop',
-    description: 'Pez ornamental de patrones rojos vibrantes sobre base blanca pura.'
-  },
-  {
-    id: 4,
-    title: 'Loto Rosa Tailandés',
-    category: 'LOTO',
-    price: 26.00,
-    stock: 0,
-    image: 'https://images.unsplash.com/photo-1543455242-4dc21df2650b?q=80&w=800&auto=format&fit=crop',
-    description: 'Variedad exótica de loto en tonos rosados intensos.'
-  }
-];
-
-// Pedidos iniciales por defecto para el Admin
-const initialOrders = [
-  {
-    id: '172001',
-    customerName: 'Marisa Ramirez',
-    customerEmail: '8490@itescam.edu.mx',
-    items: [{ title: 'Nenúfar Rosa Gigante', quantity: 2 }],
-    total: 57.00,
-    date: '16 Sep 2026',
-    status: 'Procesando'
-  }
-];
-
-// Proveedores iniciales por defecto
-const initialSuppliers = [
-  {
-    id: 1,
-    name: 'Vivero Acuático Teya',
-    contactPerson: 'Lic. Carmen Uc',
-    phone: '999 456 7890',
-    email: 'ventas@teyaacuarios.mx',
-    category: 'Plantas y Nenúfares',
-    address: 'Hacienda Teya, Yucatán'
-  },
-  {
-    id: 2,
-    name: 'Peces Ornamentales del Mayab',
-    contactPerson: 'Don Jacinto Tun',
-    phone: '988 789 1234',
-    email: 'koi.mayab@gmail.com',
-    category: 'Fauna y Carpas Koi',
-    address: 'Calkiní, Campeche'
-  }
-];
-
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [cartItems, setCartItems] = useState([]);
   const [userSession, setUserSession] = useState(null);
-  
-  // Sincronización de Eventos con localStorage
-  const [eventsData, setEventsData] = useState(() => {
-    const saved = localStorage.getItem('nenufares_events_real');
-    return saved ? JSON.parse(saved) : initialEvents;
-  });
-
+  const [ready, setReady] = useState(false);
+  const [error, setError] = useState('');
+  const [productsData, setProductsData, loadProducts] = useCatalogCollection('products', setError);
+  const [eventsData, setEventsData, loadEvents] = useCatalogCollection('events', setError);
+  const [suppliersData, setSuppliersData, loadSuppliers] = useCatalogCollection('suppliers', setError);
+  const [ordersData, setOrdersData, loadOrders] = useCatalogCollection('orders', setError);
+  const refresh = useCallback(async () => {
+    const catalog = await api('/catalog'); loadProducts(catalog.products); loadEvents(catalog.events);
+    const {user} = await api('/me'); setUserSession(user);
+    if(user) loadOrders(await api('/orders')); else loadOrders([]);
+    if(user?.role === 'admin') loadSuppliers(await api('/suppliers')); else loadSuppliers([]);
+  }, [loadProducts, loadEvents, loadSuppliers, loadOrders]);
+  useEffect(() => { Promise.resolve().then(refresh).catch(e=>setError(e.message)).finally(()=>setReady(true)); }, [refresh]);
   useEffect(() => {
-    localStorage.setItem('nenufares_events_real', JSON.stringify(eventsData));
-  }, [eventsData]);
-
-  // Sincronización de Productos / Inventario con localStorage
-  const [productsData, setProductsData] = useState(() => {
-    const saved = localStorage.getItem('nenufares_products_real');
-    return saved ? JSON.parse(saved) : initialProducts;
-  });
-
-  useEffect(() => {
-    localStorage.setItem('nenufares_products_real', JSON.stringify(productsData));
-  }, [productsData]);
-
-  // Sincronización de Pedidos con localStorage
-  const [ordersData, setOrdersData] = useState(() => {
-    const saved = localStorage.getItem('nenufares_orders_real');
-    return saved ? JSON.parse(saved) : initialOrders;
-  });
-
-  useEffect(() => {
-    localStorage.setItem('nenufares_orders_real', JSON.stringify(ordersData));
-  }, [ordersData]);
-
-  // Sincronización de Proveedores con localStorage
-  const [suppliersData, setSuppliersData] = useState(() => {
-    const saved = localStorage.getItem('nenufares_suppliers_real');
-    return saved ? JSON.parse(saved) : initialSuppliers;
-  });
-
-  useEffect(() => {
-    localStorage.setItem('nenufares_suppliers_real', JSON.stringify(suppliersData));
-  }, [suppliersData]);
+    const update=()=>refresh().catch(e=>setError(e.message));
+    window.addEventListener('nenufares:updated', update);
+    window.addEventListener('focus', update);
+    return ()=>{window.removeEventListener('nenufares:updated',update);window.removeEventListener('focus',update);};
+  }, [refresh]);
+  const logout = async () => {try {await api('/logout',{method:'POST'});await refresh();} catch(e){setError(e.message);}};
+  if(!ready) return <p role="status">Conectando con el servidor local…</p>;
+  if(error) return <div role="alert" style={{padding:32}}><p>{error}</p><button onClick={()=>{setError('');refresh().catch(e=>setError(e.message));}}>Volver a cargar datos</button></div>;
 
   const handleAddToCart = (product, qty = 1) => {
     setCartItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item.id === product.id);
+      const existingItem = prevItems.find((item) => item.id === product.id && item.size === product.size && item.shippingType === product.shippingType);
       if (existingItem) {
         return prevItems.map((item) =>
-          item.id === product.id ? { ...item, quantity: item.quantity + qty } : item
+          item.id === product.id && item.size === product.size && item.shippingType === product.shippingType ? { ...item, quantity: item.quantity + qty } : item
         );
       }
-      return [...prevItems, { ...product, quantity: qty }];
+      return [...prevItems, { ...product, lineId: crypto.randomUUID(), quantity: qty }];
     });
   };
 
@@ -189,7 +64,7 @@ function App() {
     return (
       <AdminDashboard 
         adminEmail={userSession.email} 
-        onLogout={() => setUserSession(null)} 
+        onLogout={logout} 
         eventsData={eventsData} 
         setEventsData={setEventsData}
         productsData={productsData}
@@ -210,7 +85,8 @@ function App() {
         onOpenCart={() => setIsCartOpen(true)} 
         cartCount={totalItemsCount} 
         userSession={userSession} 
-        setUserSession={setUserSession} 
+        onSessionChange={refresh}
+        onLogout={logout} 
       />
       <Hero />
       
