@@ -1,5 +1,11 @@
 # Operación de la tienda
 
+## Organización del panel
+
+Entra a **Inventario del Vivero** para abrir sus pestañas: **Productos**, **Costos de envío**, **Paquetes y promociones** y **Políticas y contacto**. Los clientes continúan en su apartado independiente. Las pestañas conservan el trabajo sin guardar mientras sigas dentro del inventario; guardar publica los cambios.
+
+En Productos puedes buscar por nombre o categoría, filtrar existencias y promociones, y editar la ficha con vista previa de imagen y precio. Usa las flechas izquierda/derecha, Inicio y Fin para recorrer las pestañas con el teclado.
+
 ## Antes de vender
 
 1. En **Políticas y contacto**, completa nombre legal, domicilio real, correo y teléfono del responsable; revisa los procedimientos de devolución y privacidad para tu operación. Los textos incluidos son una base de trabajo, no una certificación de cumplimiento legal. No se inventó un domicilio comercial. La aceptación de términos no sustituye obligaciones legales del vendedor.
