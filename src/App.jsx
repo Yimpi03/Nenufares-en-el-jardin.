@@ -46,7 +46,7 @@ function App() {
     return ()=>{window.removeEventListener('nenufares:updated',update);window.removeEventListener('focus',update);};
   }, [refresh]);
   const logout = async () => {try {await api('/logout',{method:'POST'});await refresh();} catch(e){setError(e.message);}};
-  if(!ready) return <p role="status">Conectando con la tienda…</p>;
+  if(!ready) return <main className="atelier-loading" role="status"><span className="atelier-loading-mark" aria-hidden="true">✦</span><p>NENÚFARES EN EL JARDÍN</p><h1>Preparando tu jardín</h1><small>Conectando con la tienda…</small></main>;
   if(error) return <div role="alert" style={{padding:32}}><p>{error}</p><button onClick={()=>{setError('');refresh().catch(e=>setError(e.message));}}>Volver a cargar datos</button></div>;
 
   const handleAddToCart = (product, qty = 1) => {
