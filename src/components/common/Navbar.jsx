@@ -1,10 +1,11 @@
 import { useState, useEffect } from 'react';
-import { ShoppingBag, User } from 'lucide-react';
+import { ShoppingBag, User, Menu, X, Sprout } from 'lucide-react';
 import AuthModal from './AuthModal';
 import UserProfileModal from './UserProfileModal';
 import './Navbar.css';
 
 const Navbar = ({ onOpenCart, cartCount, userSession, onSessionChange, onLogout }) => {
+  const [menuOpen,setMenuOpen]=useState(false);
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
@@ -19,18 +20,16 @@ const Navbar = ({ onOpenCart, cartCount, userSession, onSessionChange, onLogout 
   return (
     <>
       <nav className="navbar">
-        <div className="logo">
-          <span className="logo-aqua">Nenufares en el </span><span className="logo-flora">Jardín</span>
-        </div>
+        <a className="logo atelier-wordmark" href="#" aria-label="Nenúfares en el Jardín, inicio"><span className="atelier-brand-icon"><Sprout size={26} strokeWidth={1.3}/></span><span className="atelier-brand-name">Nenúfares<small>EN EL JARDÍN</small></span></a>
         
-        <ul className="nav-links">
+        <ul id="store-navigation" className={`nav-links ${menuOpen?'is-mobile-open':''}`} onClick={()=>setMenuOpen(false)}>
           <li><a href="#productos">Productos</a></li>
           <li><a href="#eventos">Eventos</a></li>
           <li><a href="#promociones">Promociones</a></li>
           <li><a href="#ubicacion">Ubicación</a></li>
         </ul>
 
-        <div className="navbar-actions">
+        <div className="navbar-actions"><button className="atelier-menu-toggle" aria-label={menuOpen?'Cerrar menú':'Abrir menú'} aria-expanded={menuOpen} aria-controls="store-navigation" onClick={()=>setMenuOpen(!menuOpen)}>{menuOpen?<X size={21}/>:<Menu size={21}/>}</button>
           {/* Si hay una sesión activa de cliente, muestra su nombre y abre el perfil */}
           {userSession ? (
             <div className="user-logged-box" onClick={() => setIsProfileOpen(true)} title="Ver mi perfil y pedidos">

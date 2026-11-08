@@ -1,47 +1,10 @@
+import {ArrowUpRight, ArrowDown, Sprout, Fish} from 'lucide-react';
 import './Hero.css';
-
-const Hero = () => {
-  const scrollToSection = (sectionId) => {
-    const section = document.getElementById(sectionId);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth' });
-    }
-  };
-
-  return (
-    <section className="hero">
-      <div className="hero-content">
-        <p className="kicker">JARDINES ACUÁTICOS · DESDE 2008</p>
-        <h1 className="title">Flores que <span className="italic-pink">flotan</span><br />en el tiempo</h1>
-        <p className="description">Nenúfares, lotos sagrados y peces koi de colección.<br />Cultivados con respeto por el agua y la vida.</p>
-        <div className="buttons-group">
-          <button 
-            className="btn btn-primary"
-            onClick={() => scrollToSection('productos')}
-          >
-            Explorar Colección
-          </button>
-          <button 
-            className="btn btn-secondary"
-            onClick={() => scrollToSection('eventos')}
-          >
-            Hacer Reserva
-          </button>
-        </div>
-      </div>
-      <div className="hero-visuals">
-        <div className="images-container">
-          <div className="img-placeholder loto"></div>
-          <div className="img-placeholder koi"></div>
-        </div>
-        
-        <div className="info-card">
-          <p className="info-title">ENVÍO ESPECIAL</p>
-          <p className="info-desc">Peces en bolsa de oxígeno · Plantas con raíz viva · 48 h garantizadas</p>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-export default Hero;
+export default function Hero(){return <>
+ <section className="atelier-hero" aria-labelledby="hero-title">
+  <div className="atelier-hero-copy"><span className="atelier-eyebrow"><span/> UN JARDÍN QUE EMPIEZA EN EL AGUA</span><h1 id="hero-title">Un poco de agua.<br/>Toda una <em>vida.</em></h1><p>Nenúfares, lotos y peces koi para crear un lugar al que siempre quieras volver.</p><div className="atelier-hero-actions"><a className="atelier-primary" href="#productos">Descubre la colección <ArrowUpRight size={19}/></a><a className="atelier-text-link" href="#eventos">Vive la experiencia <ArrowUpRight size={17}/></a></div><div className="atelier-hero-footnote"><span className="atelier-line"/><span>Especies acuáticas.<br/>Pequeños rituales de naturaleza.</span></div></div>
+  <div className="atelier-hero-art"><div className="atelier-photo-frame"><img src="/images/catalogo/nenufar.jpg" alt="Nenúfar en flor sobre un estanque, fotografía ilustrativa" fetchPriority="high"/><span className="atelier-photo-caption">NATURALEZA EN SU PROPIO RITMO</span><span className="atelier-photo-number">01 / COLECCIÓN ACUÁTICA</span></div><div className="atelier-floating-note"><Sprout size={25} strokeWidth={1.2}/><span>La belleza<br/><em>echa raíces.</em></span></div><a className="atelier-koi-note" href="#productos"><img src="/images/catalogo/koi.jpg" alt="Peces koi, imagen ilustrativa"/><span>Un estanque con carácter<small>Explora nuestros peces koi</small></span><ArrowUpRight size={20}/></a></div>
+  <a className="atelier-scroll" href="#productos"><ArrowDown size={16}/> SIGUE EXPLORANDO</a>
+ </section>
+ <div className="atelier-collection-strip" aria-label="Nuestra selección"><span><Sprout size={18}/> Nenúfares &amp; lotos</span><span className="atelier-strip-dot" aria-hidden="true">✦</span><span><Fish size={18}/> Peces koi</span><span className="atelier-strip-dot" aria-hidden="true">✦</span><span>Semillas &amp; nuevos comienzos</span><span className="atelier-strip-dot" aria-hidden="true">✦</span><span>Encuentros junto al agua</span></div>
+ </>;}

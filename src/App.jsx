@@ -18,6 +18,7 @@ import LocationSection from "./components/pages/LocationSection";
 
 import './App.css';
 import './commerce/commerce.css';
+import './design.css';
 import Policies, {PolicyLink} from './commerce/Policies';
 import CustomerPurchases from './commerce/CustomerPurchases';
 
