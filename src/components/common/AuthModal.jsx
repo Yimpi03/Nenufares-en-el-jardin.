@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { api } from '../../api';
 import { X, ArrowLeft, Mail, Lock, User } from 'lucide-react';
 import './AuthModal.css';
+import {PolicyLink} from '../../commerce/Policies';
+import {POLICY_VERSION} from '../../../shared/commerce';
 
 const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
   const [authMode, setAuthMode] = useState('login'); 
@@ -13,6 +15,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
     password: ''
   });
 
+  const [acceptedTerms,setAcceptedTerms]=useState(false);
   const [message, setMessage] = useState('');
   const changeMode = (mode) => { setMessage(''); setAuthMode(mode); };
 
@@ -27,9 +30,9 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
     if (e.currentTarget.dataset.busy) return;
     const form=e.currentTarget;form.dataset.busy='yes';setMessage('Conectando…');
     try {
-      if(authMode === 'forgot') {setMessage('El envío de correos no está configurado en local. Contacta al administrador.');return;}
+      if(authMode === 'forgot') {setMessage('La recuperación por correo no está configurada. Contacta al administrador.');return;}
       if(authMode === 'register') {
-        const result=await api('/register',{method:'POST',body:formData});
+        const result=await api('/register',{method:'POST',body:{...formData,acceptedTerms,policyVersion:POLICY_VERSION}});
         setMessage(result.message);setAuthMode('login');setFormData({...formData,password:''});
       } else {
         const result=await api('/login',{method:'POST',body:{email:formData.email,password:formData.password}});
@@ -173,6 +176,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
                 </div>
               </div>
 
+<label className="consent"><input type="checkbox" required checked={acceptedTerms} onChange={e=>setAcceptedTerms(e.target.checked)}/><span>He leído y acepto <PolicyLink/>.</span></label>
               <button type="submit" className="auth-submit-btn">Crear cuenta</button>
             </form>
 
@@ -190,7 +194,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
         {authMode === 'forgot' && (
           <div className="auth-form-container">
             <h2>Recuperar Contraseña</h2>
-            <p className="auth-subtitle">Ingresa tu correo y te enviaremos las instrucciones.</p>
+            <p className="auth-subtitle">Contacta al administrador para recuperar el acceso a tu cuenta.</p>
 
             {message && <div className="auth-success-msg">{message}</div>}
 

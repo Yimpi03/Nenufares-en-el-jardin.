@@ -17,6 +17,9 @@ import Hero from "./components/pages/Hero"; // o la ruta que tuviera
 import LocationSection from "./components/pages/LocationSection";
 
 import './App.css';
+import './commerce/commerce.css';
+import Policies, {PolicyLink} from './commerce/Policies';
+import CustomerPurchases from './commerce/CustomerPurchases';
 
 function App() {
   const [isCartOpen, setIsCartOpen] = useState(false);
@@ -42,7 +45,7 @@ function App() {
     return ()=>{window.removeEventListener('nenufares:updated',update);window.removeEventListener('focus',update);};
   }, [refresh]);
   const logout = async () => {try {await api('/logout',{method:'POST'});await refresh();} catch(e){setError(e.message);}};
-  if(!ready) return <p role="status">Conectando con el servidor local…</p>;
+  if(!ready) return <p role="status">Conectando con la tienda…</p>;
   if(error) return <div role="alert" style={{padding:32}}><p>{error}</p><button onClick={()=>{setError('');refresh().catch(e=>setError(e.message));}}>Volver a cargar datos</button></div>;
 
   const handleAddToCart = (product, qty = 1) => {
@@ -62,7 +65,7 @@ function App() {
   // VISTA DEL ADMINISTRADOR
   if (userSession && userSession.role === 'admin') {
     return (
-      <AdminDashboard 
+      <><Policies/><AdminDashboard 
         adminEmail={userSession.email} 
         onLogout={logout} 
         eventsData={eventsData} 
@@ -73,13 +76,14 @@ function App() {
         setOrdersData={setOrdersData}
         suppliersData={suppliersData}
         setSuppliersData={setSuppliersData}
-      />
+      /></>
     );
   }
 
   // VISTA PÚBLICA DEL CLIENTE
   return (
     <>
+      <Policies/>
       <ShippingBanner />
       <Navbar 
         onOpenCart={() => setIsCartOpen(true)} 
@@ -95,9 +99,12 @@ function App() {
       
       <PromoSection onAddToCart={handleAddToCart} />
       <LocationSection />
+      <CustomerPurchases user={userSession}/>
       <Footer />
+      <div className="commerce-footer"><PolicyLink/></div>
       
       <CartDrawer 
+        userSession={userSession}
         isOpen={isCartOpen} 
         onClose={() => setIsCartOpen(false)}
         cartItems={cartItems}

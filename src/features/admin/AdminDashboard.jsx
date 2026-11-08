@@ -7,6 +7,7 @@ import AdminOrders from './AdminOrders';
 import AdminSuppliers from './AdminSuppliers';
 import AdminStats from './AdminStats';
 import './AdminDashboard.css';
+import AdminCommerce from '../../commerce/AdminCommerce';
 
 const AdminDashboard = ({ 
   adminEmail, onLogout, 
@@ -53,6 +54,7 @@ const AdminDashboard = ({
           <button className={`admin-nav-btn ${activeTab === 'proveedores' ? 'active' : ''}`} onClick={() => setActiveTab('proveedores')}>
             <Truck size={18} /> Gestión de Proveedores
           </button>
+          {['clientes','envios','paquetes','politicas'].map(tab=><button key={tab} className={`admin-nav-btn ${activeTab===tab?'active':''}`} onClick={()=>setActiveTab(tab)}>{({clientes:'Clientes y correos',envios:'Costos de envío',paquetes:'Paquetes y promociones',politicas:'Políticas y contacto'})[tab]}</button>)}
         </nav>
 
         <button className="admin-logout-btn" onClick={onLogout}>
@@ -62,6 +64,7 @@ const AdminDashboard = ({
 
       {/* CONTENIDO PRINCIPAL */}
       <main className="admin-main-content">
+        {['clientes','envios','paquetes','politicas'].includes(activeTab)&&<AdminCommerce key={activeTab} tab={activeTab}/>}
         {activeTab === 'finanzas' && (
           <AdminStats ordersData={ordersData} productsData={productsData} />
         )}
@@ -78,7 +81,7 @@ const AdminDashboard = ({
           <AdminEvents eventsData={eventsData} setEventsData={setEventsData} />
         )}
 
-        {activeTab === 'asistentes' && <AdminAttendees />}
+        {activeTab === 'asistentes' && <AdminAttendees eventsData={eventsData}/>}
 
         {activeTab === 'proveedores' && (
           <AdminSuppliers suppliersData={suppliersData} setSuppliersData={setSuppliersData} />

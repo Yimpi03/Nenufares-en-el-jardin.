@@ -5,7 +5,7 @@ function ShippingBanner() {
       <div>
         <p>ENVÍO ESPECIAL</p>
         <strong>
-          Peces en bolsa de oxígeno · Plantas con raíz viva · 48 h garantizadas
+          Entrega local, recolección y rutas nacionales · Consulta condiciones y tiempos estimados
         </strong>
       </div>
     </div>

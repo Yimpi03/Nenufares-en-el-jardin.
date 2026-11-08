@@ -1,7 +1,9 @@
+import {useStore} from '../../commerce/useStore';
 
 import './Footer.css';
 
 const Footer = () => {
+  const {store}=useStore();
   return (
     <footer className="site-footer">
       <div className="footer-container">
@@ -12,7 +14,7 @@ const Footer = () => {
             <span className="logo-aqua">Nenufares en </span><span className="logo-flora">el Jardín</span>
           </div>
           <p className="footer-brand-desc">
-            Especialistas en jardines acuáticos desde 2008. Cultivamos vida en el agua con respeto por los ecosistemas naturales.
+            Plantas acuáticas, semillas y peces para tu jardín. Cultivamos vida en el agua con respeto por los ecosistemas naturales.
           </p>
         </div>
 
@@ -31,10 +33,9 @@ const Footer = () => {
         {/* Columna 3: Contacto */}
         <div className="footer-col-contact">
           <h4>CONTACTO</h4>
-          <p>Av. del Lago 248, Xochimilco</p>
-          <p>Ciudad de México, 16000</p>
-          <p className="footer-contact-spacing">+52 55 1234 5678</p>
-          <p>hola@aquaflora.mx</p>
+          <p>{store?.settings.sellerAddress||'Domicilio de recolección: confirmar con el vendedor'}</p>
+          <p>{store?.settings.contactPhone}</p>
+          <p>{store?.settings.contactEmail}</p>
         </div>
 
       </div>
@@ -46,7 +47,7 @@ const Footer = () => {
           <div className="footer-badges"><a href="/creditos-imagenes.html" target="_blank" rel="noreferrer">Créditos de imágenes</a>
             <span>CULTIVO RESPONSABLE</span>
             <span>·</span>
-            <span>ESPECIE CERTIFICADA</span>
+            <span>CONSULTA LAS CONDICIONES DE VENTA</span>
             <span>·</span>
             <span>AGUA TRATADA</span>
           </div>

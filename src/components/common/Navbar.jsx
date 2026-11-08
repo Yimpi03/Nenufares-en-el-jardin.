@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { ShoppingBag, User } from 'lucide-react';
 import AuthModal from './AuthModal';
 import UserProfileModal from './UserProfileModal';
@@ -8,6 +8,7 @@ const Navbar = ({ onOpenCart, cartCount, userSession, onSessionChange, onLogout 
   const [isAuthOpen, setIsAuthOpen] = useState(false);
   const [isProfileOpen, setIsProfileOpen] = useState(false);
 
+  useEffect(()=>{const open=()=>setIsAuthOpen(true);window.addEventListener('nenufares:auth-required',open);return()=>window.removeEventListener('nenufares:auth-required',open);},[]);
   // Recibe el correo y el rol ('admin' o 'client') desde el modal de Auth
   const handleLoginSuccess = async () => { await onSessionChange(); };
 

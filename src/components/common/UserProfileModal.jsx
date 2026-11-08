@@ -14,7 +14,7 @@ const UserProfileModal = ({ isOpen, onClose, userEmail, userName, onLogout }) =>
 
   const [orders,setOrders]=useState([]);
   useEffect(()=>{if(!isOpen)return;Promise.all([api('/orders'),api('/address')]).then(([orders,a])=>{
-   setOrders(orders.map(o=>({...o,total:`$${o.total.toFixed(2)}`,items:o.items.map(i=>`${i.quantity}x ${i.title}`).join(', '),step:o.status==='Entregado'?3:o.status==='Enviado'?2:o.status==='Cancelado'?0:1,trackingDetails:o.status==='Cancelado'?'Pedido cancelado.':'Pago pendiente. Estado: '+o.status})));
+   setOrders(orders.map(o=>({...o,total:`$${o.total.toFixed(2)}`,items:o.items.map(i=>`${i.quantity}x ${i.title}`).join(', '),step:o.status==='Entregado'?3:o.status==='Enviado'?2:o.status==='Cancelado'?0:1,trackingDetails:o.status==='Cancelado'?'Pedido cancelado.':'Pago: '+(o.paymentStatus||'pendiente')+'. Estado: '+o.status})));
    const value={street:'',colony:'',city:'',zip:'',...a};setAddress(value);setTempAddress(value);
   }).catch(e=>setSuccessMsg(e.message));},[isOpen]);
   if(!isOpen)return null;
@@ -68,7 +68,7 @@ const UserProfileModal = ({ isOpen, onClose, userEmail, userName, onLogout }) =>
         {/* --- CONTENIDO DE LA PESTAÑA: MIS PEDIDOS Y SEGUIMIENTO --- */}
         {activeTab === 'orders' && (
           <div className="profile-tab-pane">
-            <h3 className="pane-title">Historial y Seguimiento de Pedidos</h3>
+            <h3 className="pane-title">Historial y Seguimiento de Pedidos</h3><p><a href="#mis-compras" onClick={onClose}>Ver pagos, reservas y entradas QR</a></p>
             
             {orders.length === 0 ? (
               <p className="no-orders-text">Aún no has realizado ningún pedido.</p>

@@ -1,318 +1,232 @@
-import { useState } from 'react';
-import { X, Minus, Plus, Truck, Plane, Store, Search, Clock, Calendar } from 'lucide-react'; // <-- Añadido Plane
-import './ProductSection.css';
-import CatalogImage from '../../components/common/CatalogImage';
-
-
-// Opciones de horarios para recolección
-const timeSlots = [
-  { id: 't1', label: '10:00 AM - 12:00 PM', available: true },
-  { id: 't2', label: '12:00 PM - 02:00 PM', available: false },
-  { id: 't3', label: '02:00 PM - 04:00 PM', available: true },
-  { id: 't4', label: '04:00 PM - 06:00 PM', available: true }
-];
-
-const ProductSection = ({ onAddToCart, productsData = [] }) => {
-  const [selectedProduct, setSelectedProduct] = useState(null);
-  const [filter, setFilter] = useState('Todo');
-  const [searchQuery, setSearchQuery] = useState('');
-
-  const sizesList = [
-    { id: 'mediano', name: 'MEDIANO', icon: '🌸', desc: 'Ø 30-40 cm', priceExtra: 0 },
-    { id: 'grande', name: 'GRANDE', icon: '🌺', desc: 'Ø 40-70 cm', priceExtra: 8 },
-    { id: 'extragrande', name: 'EXTRA GRANDE', icon: '🌺', desc: 'Ø 70-100 cm', priceExtra: 18 },
-    { id: 'gigante', name: 'GIGANTE', icon: '🌷', desc: 'Ø 100+ cm', priceExtra: 30 }
-  ];
-
-  const [selectedSize, setSelectedSize] = useState(sizesList[0]);
-  const [selectedColor, setSelectedColor] = useState(null);
-  
-  // Opciones de envío ampliadas (Los precios y tiempos podrían venir de la administración)
-  const [shippingMethod, setShippingMethod] = useState('truck'); // 'truck', 'plane', 'pickup'
-  
-  const shippingRates = {
-    truck: { name: 'Camión (Terrestre)', price: 180.00, time: '3 a 5 días hábiles' },
-    plane: { name: 'Avión (Aéreo Exprés)', price: 450.00, time: '24 a 48 horas' },
-    pickup: { name: 'Recoger en sucursal', price: 0.00, time: 'Inmediato' }
-  };
-
-  const todayDate = new Date().toISOString().split('T')[0];
-  const [pickupDate, setPickupDate] = useState(todayDate); 
-  const [pickupTime, setPickupTime] = useState('10:00 AM - 12:00 PM');
-  
-  const [quantity, setQuantity] = useState(1);
-  const [activeTab, setActiveTab] = useState('chars');
-
-  const handleOpenModal = (product) => {
-    setSelectedProduct(product);
-    setSelectedSize(sizesList[0]);
-    if (product.colors) setSelectedColor(product.colors[0]);
+import { useState } from "react";
+import CatalogImage from "../../components/common/CatalogImage";
+import Gallery from "../../commerce/Gallery";
+import { PolicyLink } from "../../commerce/Policies";
+import { useStore } from "../../commerce/useStore";
+import { family, sizes, money, effectivePrice } from "../../../shared/commerce";
+import "./ProductSection.css";
+export default function ProductSection({ productsData = [], onAddToCart }) {
+  const [product, setProduct] = useState(null),
+    [filter, setFilter] = useState("Todo"),
+    [search, setSearch] = useState(""),
+    [size, setSize] = useState("mediano"),
+    [quantity, setQuantity] = useState(1),
+    [method, setMethod] = useState("pickup");
+  const { store, error } = useStore();
+  const open = (p) => {
+    setProduct(p);
     setQuantity(1);
-    setActiveTab('chars');
-
-    if (product.category === 'Pez') {
-      setShippingMethod('pickup');
-    } else {
-      setShippingMethod('truck');
-    }
+    setSize("mediano");
+    setMethod("pickup");
   };
-
-  const handleCloseModal = () => {
-    setSelectedProduct(null);
-  };
-
-  const filteredProducts = productsData.filter(product => {
-    const matchesCategory = filter === 'Todo' || product.category.toLowerCase() === filter.toLowerCase();
-    const matchesSearch = product.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                          product.description.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesCategory && matchesSearch;
-  });
-
-  const isNenufar = selectedProduct && selectedProduct.category === 'Nenúfar';
-  const isPez = selectedProduct && selectedProduct.category === 'Pez';
-
-  const basePrice = selectedProduct ? selectedProduct.price : 0;
-  let currentUnitPrice = basePrice;
-  if (isNenufar) currentUnitPrice += selectedSize.priceExtra;
-  
-  const currentShippingCost = shippingRates[shippingMethod].price;
-  const finalTotalPrice = (currentUnitPrice * quantity) + currentShippingCost;
-
-  const handleConfirmAdd = () => {
-    if (!selectedProduct) return;
-    
-    let finalName = selectedProduct.name;
-    if (isNenufar) finalName = `${selectedProduct.name} (${selectedSize.name})`;
-    if (selectedProduct.colors && selectedColor) finalName += ` - Color: ${selectedColor.name}`;
-
-    const productToAdd = {
-      ...selectedProduct,
-      name: finalName,
-      price: currentUnitPrice,
-      size: selectedSize.id,
-      shippingType: shippingMethod,
-      shippingCost: currentShippingCost,
-      pickupDate: shippingMethod === 'pickup' ? pickupDate : null,
-      pickupTime: shippingMethod === 'pickup' ? pickupTime : null 
-    };
-
-    onAddToCart(productToAdd, quantity);
-    handleCloseModal();
-  };
-
+  const matches = productsData.filter(
+    (p) =>
+      (filter === "Todo" || family(p.category) === filter) &&
+      `${p.name} ${p.description}`.toLowerCase().includes(search.toLowerCase()),
+  );
+  const unit = product
+    ? effectivePrice(
+        product.basePrice ?? product.price,
+        product.discountPercent,
+        family(product.category) === "waterlily"
+          ? sizes.find((s) => s.id === size).priceExtra
+          : 0,
+      )
+    : 0;
   return (
     <section className="product-section" id="productos">
       <div className="product-header-top">
-        <p className="prod-kicker">CATÁLOGO 2026</p>
-        <h2 className="prod-main-title">Nuestra <span className="italic-pink">Colección</span></h2>
+        <p className="prod-kicker">CATÁLOGO</p>
+        <h2 className="prod-main-title">
+          Nuestra <span className="italic-pink">Colección</span>
+        </h2>
       </div>
-
       <div className="product-filters-row">
         <div className="filter-buttons-group">
-          <button className={`filter-btn ${filter === 'Todo' ? 'active' : ''}`} onClick={() => setFilter('Todo')}>✦ Todo</button>
-          <button className={`filter-btn ${filter === 'Nenúfar' ? 'active' : ''}`} onClick={() => setFilter('Nenúfar')}>🌸 Nenúfares</button>
-          <button className={`filter-btn ${filter === 'Loto' ? 'active' : ''}`} onClick={() => setFilter('Loto')}>🌺 Lotos</button>
-          <button className={`filter-btn ${filter === 'Pez' ? 'active' : ''}`} onClick={() => setFilter('Pez')}>🐟 Peces</button>
-          <button className={`filter-btn ${filter === 'Semillas' ? 'active' : ''}`} onClick={() => setFilter('Semillas')}>🌱 Semillas</button>
+          {[
+            ["Todo", "✦ Todo"],
+            ["waterlily", "🌸 Nenúfares"],
+            ["lotus", "🌺 Lotos"],
+            ["fish", "🐟 Peces"],
+            ["seeds", "🌱 Semillas"],
+          ].map(([id, label]) => (
+            <button
+              key={id}
+              className={`filter-btn ${filter === id ? "active" : ""}`}
+              onClick={() => setFilter(id)}
+            >
+              {label}
+            </button>
+          ))}
         </div>
-
         <div className="product-search-box">
-          <Search size={16} className="search-icon" />
-          <input 
-            type="text" 
-            placeholder="Buscar nenúfares, lotos, peces..." 
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
+          <input
+            aria-label="Buscar productos"
+            placeholder="Buscar nenúfares, lotos, peces…"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
           />
         </div>
       </div>
-
       <div className="products-grid-layout">
-        {filteredProducts.map((product) => (
-          <article key={product.id} className="product-card-item" onClick={() => handleOpenModal(product)}>
-            <div className="product-card-img"><CatalogImage image={product.image} title={product.name} category={product.category} />
-              {product.badge && <span className="card-badge-pill">{product.badge}</span>}
-              <span className="card-stock-pill">{product.stock} disponibles</span>
-            </div>
-            
+        {matches.map((p) => (
+          <article key={p.id} className="product-card-item">
+            <button
+              type="button"
+              className="product-card-img"
+              style={{ padding: 0, border: 0, width: "100%" }}
+              onClick={() => open(p)}
+              aria-label={`Ver ${p.name}`}
+            >
+              <CatalogImage
+                image={p.image}
+                title={p.name}
+                category={p.category}
+              />
+              {p.discountPercent > 0 && (
+                <span className="card-badge-pill">−{p.discountPercent}%</span>
+              )}
+              <span className="card-stock-pill">{p.stock} disponibles</span>
+            </button>
             <div className="product-card-body">
-              <span className="card-category-label">{product.category}</span>
-              <h3 className="card-product-title">{product.name}</h3>
-              <p className="card-product-desc">{product.description}</p>
-              
+              <span className="card-category-label">{p.category}</span>
+              <h3 className="card-product-title">{p.name}</h3>
+              <p className="card-product-desc">{p.description}</p>
               <div className="card-footer-flex">
                 <span className="card-price-txt">
-                  ${product.price.toFixed(2)} <small>/ {product.unit}</small>
+                  {p.discountPercent > 0 && (
+                    <del className="product-sale-price">
+                      {money(p.basePrice)}{" "}
+                    </del>
+                  )}
+                  {money(p.price)}
+                  <small> / {p.unit}</small>
                 </span>
-                <button className="btn-add-catalog" onClick={(e) => { e.stopPropagation(); handleOpenModal(product); }}>
-                  Añadir
+                <button className="btn-add-catalog" onClick={() => open(p)}>
+                  Ver detalle
                 </button>
               </div>
             </div>
           </article>
         ))}
       </div>
-
-      {selectedProduct && (
-        <div className="product-modal-overlay" onClick={handleCloseModal}>
-          <div className="product-modal-container-exact" onClick={(e) => e.stopPropagation()}>
-            <button className="modal-close-btn" onClick={handleCloseModal}>
-              <X size={20} />
+      {!matches.length && <p>No hay productos en esta selección.</p>}
+      {product && (
+        <div className="commerce-overlay">
+          <section
+            className="commerce-dialog"
+            role="dialog"
+            aria-modal="true"
+            aria-label={product.name}
+          >
+            <button
+              className="commerce-close"
+              onClick={() => setProduct(null)}
+              aria-label="Cerrar producto"
+            >
+              ×
             </button>
-
-            <div className="modal-img-column"><CatalogImage image={selectedProduct.image} title={selectedProduct.name} category={selectedProduct.category} />
-              {selectedProduct.badge && <span className="modal-badge-top">{selectedProduct.badge}</span>}
-              {selectedProduct.discountBadge && <span className="modal-badge-bottom">{selectedProduct.discountBadge}</span>}
-            </div>
-
-            <div className="modal-content-column">
-              <div className="modal-category-kicker">{selectedProduct.category}</div>
-              <h2 className="modal-title-big">{selectedProduct.name}</h2>
-              <p className="modal-desc-text">{selectedProduct.description}</p>
-
-              <div className="modal-top-price-row">
-                <span className="modal-main-price">${currentUnitPrice.toFixed(2)}</span>
-                <span className="modal-unit-label">MXN / {selectedProduct.unit}</span>
-                {selectedProduct.oldPrice && <span className="modal-old-price">${selectedProduct.oldPrice.toFixed(2)}</span>}
-                <span className="modal-stock-label">{selectedProduct.stock} disponibles</span>
-              </div>
-
-              <div className="modal-tabs-line">
-                <button type="button" className={`tab-item-btn ${activeTab === 'chars' ? 'active' : ''}`} onClick={() => setActiveTab('chars')}>
-                  CARACTERÍSTICAS
-                </button>
-                <button type="button" className={`tab-item-btn ${activeTab === 'care' ? 'active' : ''}`} onClick={() => setActiveTab('care')}>
-                  CUIDADOS
-                </button>
-              </div>
-
-              <div className="modal-chars-container">
-                {activeTab === 'chars' ? (
-                  selectedProduct.characteristics?.map((char, index) => (
-                    <div key={index} className="char-line">
-                      <span className="char-diamond">◆</span> <span>{char}</span>
-                    </div>
-                  ))
-                ) : (
-                  <div className="char-line">
-                    <span className="char-diamond">◆</span> 
-                    <span>
-                      {selectedProduct.category === 'Pez' ? 'Agua limpia y oxigenada, alimentación balanceada.' 
-                      : selectedProduct.category === 'Semillas' ? 'Remojar en agua tibia y cambiar diariamente hasta germinar.' 
-                      : 'Exposición a pleno sol y agua limpia sin cloro.'}
-                    </span>
-                  </div>
-                )}
-              </div>
-
-              {isNenufar && (
-                <div className="size-selector-section">
-                  <div className="size-header-bar">
-                    <span className="sz-title-txt">TAMAÑO DEL NENÚFAR</span>
-                    <span className="sz-measure-txt">{selectedSize.desc} <span className="sz-extra-price">+{selectedSize.priceExtra > 0 ? `$${selectedSize.priceExtra}` : 'incluido'}</span></span>
-                  </div>
-                  <div className="sizes-buttons-grid">
-                    {sizesList.map((sz) => (
-                      <button
-                        type="button"
-                        key={sz.id}
-                        className={`size-box-btn ${selectedSize.id === sz.id ? 'active' : ''}`}
-                        onClick={() => setSelectedSize(sz)}
-                      >
-                        <span className="sz-flower-icon">{sz.icon}</span>
-                        <span className="sz-label-txt">{sz.name}</span>
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              )}
-
-              {/* SECCIÓN DE MÉTODOS DE ENVÍO / RECEPCIÓN AMPLIADA */}
-              <div className="reception-section-block">
-                <div className="size-header-bar">
-                    <span className="sz-title-txt">MÉTODO DE ENVÍO Y RECEPCIÓN</span>
-                </div>
-                
-                <div className="reception-options-row" style={{ display: 'grid', gridTemplateColumns: isPez ? '1fr' : 'repeat(3, 1fr)', gap: '8px' }}>
-                  {!isPez && (
-                    <>
-                      {/* Envío Camión */}
-                      <div className={`rec-card-item ${shippingMethod === 'truck' ? 'selected' : ''}`} onClick={() => setShippingMethod('truck')}>
-                        <div className="rec-title-line"><Truck size={15} /> <strong>Camión (Terrestre)</strong></div>
-                        <span className="rec-sub-txt">${shippingRates.truck.price.toFixed(2)} · {shippingRates.truck.time}</span>
-                      </div>
-
-                      {/* Envío Avión */}
-                      <div className={`rec-card-item ${shippingMethod === 'plane' ? 'selected' : ''}`} onClick={() => setShippingMethod('plane')}>
-                        <div className="rec-title-line"><Plane size={15} /> <strong>Avión (Aéreo)</strong></div>
-                        <span className="rec-sub-txt">${shippingRates.plane.price.toFixed(2)} · {shippingRates.plane.time}</span>
-                      </div>
-                    </>
-                  )}
-
-                  {/* Recoger en sucursal */}
-                  <div 
-                    className={`rec-card-item ${shippingMethod === 'pickup' ? 'selected' : ''}`} 
-                    onClick={() => setShippingMethod('pickup')}
-                  >
-                    <div className="rec-title-line"><Store size={15} /> <strong>Recoger en sucursal</strong></div>
-                    <span className="rec-sub-txt">Gratis · En vivero</span>
-                  </div>
-                </div>
-
-                {isPez && (
-                  <span className="pez-warning-text">
-                    * Por el bienestar de los ejemplares vivos, las carpas Koi solo están disponibles para recolección en nuestras instalaciones.
-                  </span>
-                )}
-
-                {/* SELECTOR DE FECHA Y HORA (SOLO SI ES RECOLECCIÓN) */}
-                {shippingMethod === 'pickup' && (
-                  <div className="pickup-datetime-container">
-                    <label className="pickup-label"><Calendar size={14} color="#dcb358" /> 1. Elige el día de recolección:</label>
-                    <input
-                      type="date"
-                      className="pickup-date-input"
-                      value={pickupDate}
-                      min={todayDate}
-                      onChange={(e) => setPickupDate(e.target.value)}
-                    />
-
-                    <label className="pickup-label"><Clock size={14} color="#dcb358" /> 2. Elige la hora:</label>
-                    <div className="pickup-time-grid">
-                      {timeSlots.map((slot) => (
+            <div className="commerce-grid">
+              <Gallery key={product.id} product={product} />
+              <div>
+                <p>{product.category}</p>
+                <h2>{product.name}</h2>
+                <p>{product.description}</p>
+                {family(product.category) === "waterlily" && (
+                  <>
+                    <h3>Elige el tamaño</h3>
+                    <div className="size-options">
+                      {sizes.map((s) => (
                         <button
-                          key={slot.id}
                           type="button"
-                          disabled={!slot.available}
-                          className={`time-slot-btn ${pickupTime === slot.label ? 'selected' : ''} ${!slot.available ? 'disabled' : ''}`}
-                          onClick={() => setPickupTime(slot.label)}
+                          key={s.id}
+                          className={`size-option ${size === s.id ? "selected" : ""}`}
+                          aria-pressed={size === s.id}
+                          onClick={() => setSize(s.id)}
                         >
-                          {slot.label}
+                          <strong>{s.name}</strong>
+                          <span>{s.desc}</span>
+                          <span>
+                            {money(
+                              effectivePrice(
+                                product.basePrice ?? product.price,
+                                product.discountPercent,
+                                s.priceExtra,
+                              ),
+                            )}
+                          </span>
                         </button>
                       ))}
                     </div>
-                  </div>
+                    <p>
+                      <small>
+                        Dimensiones de referencia del catálogo; confirma con el
+                        vendedor si corresponden a hoja, planta o recipiente y
+                        la medida del ejemplar.
+                      </small>
+                    </p>
+                  </>
                 )}
-              </div>
-
-              <div className="modal-footer-actions">
-                <div className="quantity-stepper">
-                  <button type="button" onClick={() => setQuantity(Math.max(1, quantity - 1))}><Minus size={14} /></button>
-                  <span>{quantity}</span>
-                  <button type="button" onClick={() => setQuantity(quantity + 1)}><Plus size={14} /></button>
-                </div>
-                <button type="button" className="btn-gold-action" onClick={handleConfirmAdd}>
-                  Añadir al carrito · ${finalTotalPrice.toFixed(2)}
+                <label>
+                  Entrega
+                  <select
+                    value={method}
+                    onChange={(e) => setMethod(e.target.value)}
+                  >
+                    {(store?.shipping || [])
+                      .filter((m) =>
+                        m.families.includes(family(product.category)),
+                      )
+                      .map((m) => (
+                        <option key={m.id} value={m.id}>
+                          {m.label} ·{" "}
+                          {m.quoteRequired ? "Por cotizar" : money(m.cost)}
+                        </option>
+                      ))}
+                  </select>
+                </label>
+                {error && <p role="alert">{error}</p>}
+                <label>
+                  Cantidad
+                  <input
+                    type="number"
+                    min="1"
+                    max={Math.max(1, product.stock)}
+                    value={quantity}
+                    onChange={(e) => setQuantity(Number(e.target.value))}
+                  />
+                </label>
+                <h3>
+                  {money(unit * quantity)}{" "}
+                  <small>+ envío calculado al finalizar</small>
+                </h3>
+                <button
+                  disabled={
+                    !store ||
+                    product.stock < quantity ||
+                    quantity < 1 ||
+                    !Number.isInteger(quantity)
+                  }
+                  onClick={() => {
+                    onAddToCart(
+                      { ...product, price: unit, size, shippingType: method },
+                      quantity,
+                    );
+                    setProduct(null);
+                  }}
+                >
+                  Añadir al carrito
                 </button>
+                <p>
+                  <PolicyLink>
+                    Envíos, devoluciones, pagos y privacidad
+                  </PolicyLink>
+                </p>
               </div>
-
             </div>
-          </div>
+          </section>
         </div>
       )}
     </section>
   );
-};
-
-export default ProductSection;
+}

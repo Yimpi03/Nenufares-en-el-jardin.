@@ -1,10 +1,10 @@
 import { useState } from 'react';
-import { X, Minus, Plus, Check, ArrowRight } from 'lucide-react';
+import { X, Minus, Plus, ArrowRight } from 'lucide-react';
 import CheckoutModal from './CheckoutModal'; // <-- Importamos el modal de pago
 import './CartDrawer.css';
 import CatalogImage from '../../components/common/CatalogImage';
 
-const CartDrawer = ({ isOpen, onClose, cartItems, setCartItems }) => {
+const CartDrawer = ({ isOpen, onClose, cartItems, setCartItems, userSession }) => {
   const [isCheckoutOpen, setIsCheckoutOpen] = useState(false); // Estado para abrir la pasarela de pagos
 
   const updateQuantity = (id, change) => {
@@ -80,16 +80,16 @@ const CartDrawer = ({ isOpen, onClose, cartItems, setCartItems }) => {
           </div>
           <div className="summary-row">
             <span>Envío</span>
-            <span className="free-shipping">Gratis <Check size={14} /></span>
+            <span>Se calcula al finalizar</span>
           </div>
           <div className="summary-row total-row">
-            <span>Total</span>
+            <span>Productos (sin envío)</span>
             <span>${subtotal.toFixed(2)}</span>
           </div>
           
           <button 
             className="btn-checkout" 
-            onClick={() => setIsCheckoutOpen(true)}
+            onClick={() => {if(!userSession){onClose();window.dispatchEvent(new CustomEvent('nenufares:auth-required'));}else setIsCheckoutOpen(true);}}
             disabled={cartItems.length === 0}
             style={{ opacity: cartItems.length === 0 ? 0.6 : 1, cursor: cartItems.length === 0 ? 'not-allowed' : 'pointer' }}
           >
