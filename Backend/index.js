@@ -36,7 +36,7 @@ app.use('/api',(req,res,next)=>{ (async()=>{
 })().catch(next); });
 const signedIn=(req,res,next)=>req.user?next():res.status(401).json({message:'Inicia sesión para continuar.'});
 const admin=(req,res,next)=>!req.user?res.status(401).json({message:'Inicia sesión.'}):req.user.role!=='admin'?res.status(403).json({message:'Se requiere administrador.'}):next();
-app.get('/api/health',wrap(async(req,res)=>{const q=await pool.query('SELECT current_database() AS database,NOW() AS "serverTime"');res.json({success:true,message:'API funcionando y PostgreSQL conectado',...q.rows[0]});}));
+app.get('/api/health',wrap(async(req,res)=>{const q=await pool.query('SELECT current_database() AS database,NOW() AS "serverTime"');res.json({success:true,message:'API funcionando y PostgreSQL conectado',revision:process.env.RENDER_GIT_COMMIT||null,...q.rows[0]});}));
 app.post('/api/register',authLimit,wrap(async(req,res)=>{
  const {nombre,apellido,email,password}=req.body;
  if(!text(nombre,100)||!text(apellido,100)||!emailOK(email)||typeof password!=='string'||password.length<8||Buffer.byteLength(password)>72)fail('Completa nombre, apellido y correo; contraseña de 8 caracteres como mínimo y máximo 72 bytes.');
@@ -149,8 +149,21 @@ app.post('/api/reservations',signedIn,wrap(async(req,res)=>{
 if(process.env.NODE_ENV==='production')app.use(express.static(fileURLToPath(new URL('../dist/',import.meta.url))));
 app.use((req,res)=>res.status(404).json({message:'Ruta no encontrada.'}));
 app.use((e,req,res,next)=>{void next;console.error(e.message);res.status(e.code==='23505'?409:e.status||500).json({message:e.code==='23505'?'Ese correo ya está registrado.':e.status?e.message:'Error de base de datos. Revisa la terminal del backend.'});});
+
+async function bootstrapRequestedAdmin(db) {
+ // One-time owner-requested grant, restricted to the intended Render deployment.
+ if(process.env.RENDER_EXTERNAL_URL !== 'https://nenufares-en-el-jardin-3ikt.onrender.com')return;
+ const marker='grant-owner-admin-20261108';
+ if((await db.query('SELECT id FROM app_migrations WHERE id=$1',[marker])).rowCount)return;
+ const result=await db.query("UPDATE usuarios SET rol='admin' WHERE LOWER(email)=$1 RETURNING id",['admisariteyaflores@gmail.com']);
+ if(result.rowCount===1){
+  await db.query('INSERT INTO app_migrations(id) VALUES($1)',[marker]);
+  console.log('Cuenta de administrador habilitada; contraseña conservada.');
+ }
+}
+
 export async function initialize(){
- const db=await pool.connect();try{await db.query('BEGIN');await db.query('SELECT pg_advisory_xact_lock(972614)');await db.query(await readFile(new URL('./schema.sql',import.meta.url),'utf8'));await seed(db);await db.query(await readFile(new URL('./catalog-images.sql',import.meta.url),'utf8'));await db.query('COMMIT');}catch(e){await db.query('ROLLBACK');throw e;}finally{db.release();}
+ const db=await pool.connect();try{await db.query('BEGIN');await db.query('SELECT pg_advisory_xact_lock(972614)');await db.query(await readFile(new URL('./schema.sql',import.meta.url),'utf8'));await seed(db);await bootstrapRequestedAdmin(db);await db.query(await readFile(new URL('./catalog-images.sql',import.meta.url),'utf8'));await db.query('COMMIT');}catch(e){await db.query('ROLLBACK');throw e;}finally{db.release();}
 }
 if(process.env.NODE_ENV!=='test'){
  initialize().then(()=>{const port=Number(process.env.PORT)||4000;app.listen(port,process.env.RENDER?'0.0.0.0':'127.0.0.1',()=>console.log(`Servidor iniciado en puerto ${port} | PostgreSQL conectado`));}).catch(e=>{console.error('No se pudo iniciar:',e.message);process.exit(1);});
