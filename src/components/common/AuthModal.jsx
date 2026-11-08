@@ -14,6 +14,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
   });
 
   const [message, setMessage] = useState('');
+  const changeMode = (mode) => { setMessage(''); setAuthMode(mode); };
 
   if (!isOpen) return null;
 
@@ -84,7 +85,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
               </div>
 
               <div className="auth-links-row">
-                <span className="forgot-link" onClick={() => setAuthMode('forgot')}>
+                <span className="forgot-link" onClick={() => changeMode('forgot')}>
                   ¿Olvidaste tu contraseña?
                 </span>
               </div>
@@ -93,7 +94,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
             </form>
 
             <div className="auth-switch-prompt">
-              ¿No tienes una cuenta? <span onClick={() => setAuthMode('register')}>Regístrate aquí</span>
+              ¿No tienes una cuenta? <span onClick={() => changeMode('register')}>Regístrate aquí</span>
             </div>
 
             <button className="back-to-store-btn" onClick={onClose}>
@@ -176,7 +177,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
             </form>
 
             <div className="auth-switch-prompt">
-              ¿Ya tienes una cuenta? <span onClick={() => setAuthMode('login')}>Inicia sesión</span>
+              ¿Ya tienes una cuenta? <span onClick={() => changeMode('login')}>Inicia sesión</span>
             </div>
 
             <button className="back-to-store-btn" onClick={onClose}>
@@ -213,7 +214,7 @@ const AuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
             </form>
 
             <div className="auth-switch-prompt">
-              <span onClick={() => setAuthMode('login')}>← Volver al inicio de sesión</span>
+              <span onClick={() => changeMode('login')}>← Volver al inicio de sesión</span>
             </div>
           </div>
         )}
