@@ -113,3 +113,10 @@
 
 @keyframes scaleIn { 0% { transform: scale(0); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
 @media (max-width: 900px) { .res-modal-container { grid-template-columns: 1fr; max-height: 90vh; overflow-y: auto; } .ev-modal-img { height: 150px; } .res-form-side { padding: 2rem; } }
+.res-error-msg { background: #662b2b; border: 1px solid #e29292; color: white; padding: .75rem; border-radius: 4px; margin-bottom: 1rem; font-size: .9rem; }
+.res-demo-disclaimer { color: #d5d9d5; font-size: .86rem; line-height: 1.6; margin: 1rem 0; }
+.res-image-download { display: inline-flex; align-items: center; gap: .35rem; border: 1px solid #b89b55; color: #194135; background: #faf6e9; padding: .4rem .6rem; margin-top: .5rem; font-size: .78rem; }
+.res-download-actions { width: 100%; }
+.qr-ticket-info { flex: 1; min-width: 0; overflow-wrap: anywhere; }
+.res-form-side { overflow-y: auto; }
+@media(max-width:550px) { .res-modal-overlay { padding: .5rem; } .res-form-side { padding: 1.5rem; } .qr-ticket-card { align-items: start; } }

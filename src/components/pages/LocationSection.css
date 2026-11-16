@@ -486,3 +486,46 @@
     font-size: 2.6rem;
   }
 }
+/* Google Maps real y carrusel deslizable de 3 tarjetas */
+.location-google-map { width: 100%; height: 100%; min-height: 480px; border: 0; display: block; }
+.suppliers-hint { color: #a9b8b2; font-size: .85rem; margin: .65rem 0 0; }
+.suppliers-carousel-wrap { display: flex; align-items: center; gap: 1rem; }
+.suppliers-carousel-track {
+  display: grid; grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 3rem) / 3);
+  grid-template-columns: none;
+  gap: 1.5rem; overflow-x: auto; scroll-snap-type: x mandatory;
+  scroll-behavior: smooth; scrollbar-width: thin;
+  scrollbar-color: #dcb358 #0b211e;
+  flex: 1; min-width: 0; margin-bottom: 0; padding: .5rem .1rem 1rem;
+}
+.suppliers-carousel-track .supplier-card { scroll-snap-align: start; min-width: 0; }
+.suppliers-carousel-track .supplier-card .supplier-meta { min-width: 0; }
+.supplier-address { display: flex; gap: .35rem; align-items: start; color: #9fb2aa; font-size: .76rem; margin-top: .35rem; }
+.supplier-address svg { flex-shrink: 0; margin-top: .15rem; }
+.suppliers-carousel-arrow { flex: 0 0 36px; }
+@media(max-width: 1024px) { .suppliers-carousel-track { grid-auto-columns: calc((100% - 1.5rem) / 2); } }
+@media(max-width: 640px) { .suppliers-carousel-track { grid-auto-columns: 100%; } .suppliers-carousel-wrap { gap: .5rem; } .suppliers-carousel-arrow { flex-basis: 30px; } }
+
+/* Enlace oficial mientras se obtienen coordenadas para un mapa incrustado fiable. */
+.location-map-link-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(220,179,88,.12), transparent 50%),
+    linear-gradient(145deg, #14392f 0%, #091d1a 100%);
+  padding: 2rem;
+}
+.location-map-link-content {
+  max-width: 430px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+}
+.location-map-link-content > svg { color: #dcb358; }
+.location-map-link-content h3 { color: #f9eee2; font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 400; }
+.location-map-link-content p { color: #c5d0c9; line-height: 1.7; }
+.location-map-link-content .btn-google-maps { max-width: 100%; white-space: normal; text-align: center; }

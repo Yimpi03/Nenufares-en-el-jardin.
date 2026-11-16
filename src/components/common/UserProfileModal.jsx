@@ -1,9 +1,27 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { downloadTicketPdf, downloadTicketImage } from '../../features/events/ReservationModal';
+import { Ticket, Download, Image as ImageIcon } from 'lucide-react';
 import { X, User, MapPin, Package, Truck, CheckCircle, Edit2, Save, LogOut } from 'lucide-react';
 import './UserProfileModal.css';
 
 const UserProfileModal = ({ isOpen, onClose, userEmail, userName, onLogout }) => {
-  const [activeTab, setActiveTab] = useState('orders'); // 'orders' o 'address'
+  const [activeTab, setActiveTab] = useState('orders');
+  const [reservations, setReservations] = useState([]);
+  const [downloadError, setDownloadError] = useState('');
+
+  useEffect(() => {
+    if (!isOpen) return;
+    const refresh = () => {
+      try {
+        const data = JSON.parse(localStorage.getItem('nenufares_reservaciones_demo_v1') || '[]');
+        setReservations(Array.isArray(data) ? data.filter(ticket => ticket.email === (userEmail || '').trim().toLowerCase()) : []);
+      } catch { setReservations([]); }
+    };
+    refresh();
+    window.addEventListener('nenufares:reservations-updated', refresh);
+    window.addEventListener('storage', refresh);
+    return () => { window.removeEventListener('nenufares:reservations-updated', refresh); window.removeEventListener('storage', refresh); };
+  }, [isOpen, userEmail]); // 'orders' o 'address'
 
   // Estado para la dirección de envío (permite editarla)
   const [address, setAddress] = useState({
@@ -86,6 +104,9 @@ const UserProfileModal = ({ isOpen, onClose, userEmail, userName, onLogout }) =>
           >
             <Package size={16} /> Mis Pedidos
           </button>
+          <button type="button" className={`profile-tab-btn ${activeTab === 'reservations' ? 'active' : ''}`} onClick={() => setActiveTab('reservations')}>
+            <Ticket size={16} /> Mis reservaciones
+          </button>
           <button 
             className={`profile-tab-btn ${activeTab === 'address' ? 'active' : ''}`}
             onClick={() => setActiveTab('address')}
@@ -134,6 +155,34 @@ const UserProfileModal = ({ isOpen, onClose, userEmail, userName, onLogout }) =>
                           <span>3</span> Entregado
                         </div>
                       </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        )}
+
+
+        {activeTab === 'reservations' && (
+          <div className="profile-tab-pane">
+            <h3 className="pane-title">Mis reservaciones y códigos QR</h3>
+            <p style={{ marginBottom: '1rem', color: '#67746e' }}>Reservaciones de demostración almacenadas en este navegador. Los pagos simulados no acreditan un cobro real.</p>
+            {downloadError && <p role="alert" style={{ color: '#b73737' }}>{downloadError}</p>}
+            {reservations.length === 0 ? <p className="no-orders-text">Todavía no tienes reservaciones en este navegador con este correo.</p> : (
+              <div className="orders-list">
+                {reservations.map(ticket => (
+                  <div key={ticket.folio} className="order-card">
+                    <div className="order-card-header">
+                      <strong className="order-id">{ticket.folio}</strong>
+                      <span className="order-date">{ticket.date}</span>
+                    </div>
+                    <p className="order-items-desc"><strong>{ticket.eventTitle}</strong></p>
+                    <p className="order-items-desc">Titular: {ticket.holder} · Boleto {ticket.position}/{ticket.quantity}</p>
+                    <p className="order-items-desc">Estado: {ticket.paymentStatus === 'gratuito' ? 'Registro gratuito' : 'Pago simulado (DEMO)'}</p>
+                    <div style={{ display: 'flex', flexWrap: 'wrap', gap: '.6rem', marginTop: '.8rem' }}>
+                      <button type="button" className="btn-save-addr" onClick={() => downloadTicketPdf([ticket]).catch(() => setDownloadError('No fue posible descargar el PDF.'))}><Download size={14}/> PDF</button>
+                      <button type="button" className="btn-edit-address" onClick={() => downloadTicketImage(ticket).catch(() => setDownloadError('No fue posible descargar la imagen.'))}><ImageIcon size={14}/> Imagen PNG</button>
                     </div>
                   </div>
                 ))}
