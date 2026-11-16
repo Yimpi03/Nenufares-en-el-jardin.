@@ -2,12 +2,9 @@ import { useEffect, useRef, useState } from 'react';
 import { MapPin, Clock, Phone, Mail, Navigation, ChevronLeft, ChevronRight } from 'lucide-react';
 import './LocationSection.css';
 
-// IMPORTANTE: confirmar la dirección exacta del vivero antes de usar el sitio en producción.
-// Se conserva la dirección que ya figuraba en la página.
-const ESTABLISHMENT_ADDRESS = 'Av. del Lago 248, Col. La Guadalupana, Xochimilco, CDMX 16000, México';
-const mapsQuery = encodeURIComponent(ESTABLISHMENT_ADDRESS);
-const directionsUrl = `https://www.google.com/maps/dir/?api=1&destination=${mapsQuery}`;
-const embeddedMapUrl = `https://maps.google.com/maps?q=${mapsQuery}&z=15&output=embed`;
+// Enlace compartido por la persona responsable del establecimiento.
+// Falta resolver el enlace largo de Google Maps para obtener las coordenadas de incrustación.
+const officialGoogleMapsUrl = 'https://maps.app.goo.gl/mwfUtmTn1XcmLdSr7?g_st=aw';
 
 // Datos de muestra heredados del proyecto; sustituir por proveedores confirmados.
 const suppliersData = [
@@ -56,7 +53,7 @@ export default function LocationSection() {
         <div className="location-info-col">
           <div className="loc-info-block">
             <div className="loc-icon-wrap"><MapPin size={18} /></div>
-            <div className="loc-text-wrap"><span className="loc-label">DIRECCIÓN</span><p>Av. del Lago 248</p><p>Col. La Guadalupana</p><p>Xochimilco, CDMX 16000</p></div>
+            <div className="loc-text-wrap"><span className="loc-label">DIRECCIÓN</span><p>Consulta la ubicación exacta y las indicaciones en Google Maps.</p></div>
           </div>
           <div className="loc-info-block">
             <div className="loc-icon-wrap"><Clock size={18} /></div>
@@ -70,20 +67,20 @@ export default function LocationSection() {
             <div className="loc-icon-wrap"><Mail size={18} /></div>
             <div className="loc-text-wrap"><span className="loc-label">CORREO</span><p>hola@aquaflora.mx</p><p>ventas@aquaflora.mx</p></div>
           </div>
-          <a href={directionsUrl} className="btn-google-maps" target="_blank" rel="noopener noreferrer">
+          <a href={officialGoogleMapsUrl} className="btn-google-maps" target="_blank" rel="noopener noreferrer">
             <Navigation size={17} /> Cómo llegar con Google Maps
           </a>
         </div>
 
-        <div className="location-map-wrapper">
-          <iframe
-            className="location-google-map"
-            title="Mapa interactivo del establecimiento en Google Maps"
-            src={embeddedMapUrl}
-            loading="lazy"
-            referrerPolicy="no-referrer-when-downgrade"
-            allowFullScreen
-          />
+        <div className="location-map-wrapper location-map-link-wrap">
+          <div className="location-map-link-content">
+            <MapPin size={52} strokeWidth={1.5}/>
+            <h3>Visita nuestro vivero</h3>
+            <p>Abre la ubicación que compartimos en Google Maps para consultar el punto exacto y trazar tu ruta.</p>
+            <a href={officialGoogleMapsUrl} target="_blank" rel="noopener noreferrer" className="btn-google-maps">
+              <Navigation size={17}/> Ver ubicación y ruta en Google Maps
+            </a>
+          </div>
         </div>
       </div>
 
