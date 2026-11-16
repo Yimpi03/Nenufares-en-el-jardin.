@@ -486,3 +486,23 @@
     font-size: 2.6rem;
   }
 }
+
+/* Ubicación real y carrusel: 3 tarjetas en escritorio, desplazamiento táctil */
+.nj-location-map { min-height: 380px; overflow: hidden; border: 1px solid rgba(220,179,88,.27); border-radius: 12px; background: #11382f; }
+.nj-location-map iframe { width: 100%; height: 100%; min-height: 380px; border: none; display: block; }
+.nj-location-map-empty { min-height: 380px; padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1rem; text-align: center; }
+.nj-location-map-empty svg { color: #dcb358; }
+.nj-location-map-empty h3 { font-size: 1.8rem; font-family: "Playfair Display",serif; }
+.nj-location-map-empty p { line-height: 1.7; max-width: 400px; color: #cbd7d2; }
+.nj-location-shipping { margin-bottom: 3rem; color: #183e36; }
+.nj-location-shipping p { margin: .5rem 0; }
+.nj-supplier-note { color: #a8bdb2; font-size: .89rem; line-height: 1.5; margin-top: .7rem; }
+.nj-supplier-wrap { display: flex; align-items: center; gap: 1rem; }
+.nj-supplier-wrap > button { flex-shrink: 0; }
+.nj-supplier-track { display: grid; grid-auto-flow: column; grid-auto-columns: calc((100% - 40px) / 3); gap: 20px; flex: 1; min-width: 0; overflow-x: auto; padding: .5rem 0 1rem; scrollbar-width: thin; scrollbar-color: #dcb358 transparent; scroll-snap-type: x mandatory; scroll-behavior: smooth; }
+.nj-supplier-card { min-width: 0; scroll-snap-align: start; background: #122c26; border: 1px solid #335247; border-radius: 12px; padding: 1.5rem; min-height: 170px; display: flex; flex-direction: column; align-items: start; gap: .7rem; }
+.nj-supplier-card h4 { font-family: "Playfair Display",serif; font-size: 1.2rem; color: #f7eee4; overflow-wrap: anywhere; }
+.nj-supplier-card p { color: #a8bdb2; font-size: .85rem; }
+.nj-supplier-icon { color: #dcb358; }
+@media (max-width: 1024px) { .nj-supplier-track { grid-auto-columns: calc((100% - 20px) / 2); } }
+@media (max-width: 640px) { .nj-supplier-track { grid-auto-columns: 100%; } .nj-supplier-wrap { gap: .5rem; } .location-body-grid { display: grid; grid-template-columns: 1fr; } }
