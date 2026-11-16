@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import QRCode from 'qrcode';
 import { jsPDF } from 'jspdf';
 import { X, Minus, Plus, CheckCircle, Calendar, Clock, MapPin, Download, Image as ImageIcon } from 'lucide-react';
@@ -216,12 +216,13 @@ export default function ReservationModal({ isOpen, onClose, event }) {
 function TicketPreview({ ticket, onDownload, busy }) {
   const [src, setSrc] = useState('');
   // Render QR locally: the reservation details never need to be sent to a QR API.
-  const [previousFolio, setPreviousFolio] = useState('');
-  if (previousFolio !== ticket.folio) {
-    setPreviousFolio(ticket.folio);
+  useEffect(() => {
+    let active = true;
     QRCode.toDataURL(buildQrValue(ticket), { width: 240, margin: 2 })
-      .then(setSrc).catch(() => setSrc(''));
-  }
+      .then(value => { if (active) setSrc(value); })
+      .catch(() => { if (active) setSrc(''); });
+    return () => { active = false; };
+  }, [ticket]);
   return <div className="qr-ticket-card">
     {src ? <img src={src} alt={`QR boleto ${ticket.position}`} className="qr-img"/> : <div className="qr-img"/>}
     <div className="qr-ticket-info">
