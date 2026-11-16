@@ -344,11 +344,11 @@ try {
     body: { eventId: 1, tickets: 1, nombre: "Cliente" },
   });
   check(pr, 201);
+  assert.deepEqual(pr.body.ticketIds, []);
   check(
-    await call("/admin/tickets/consume", {
+    await call(`/reservations/${pr.body.id}/tickets`, {
       method: "POST",
-      cookie: c,
-      body: { eventId: 1, token: pr.body.ticketIds[0] },
+      cookie: otherCookie,
     }),
     409,
   );
