@@ -112,24 +112,28 @@ export default function CustomerPurchases({ user }) {
               Pagar reserva con Mercado Pago ↗
             </button>
           )}
-          <p>
-            <button
-              disabled={busy}
-              onClick={() =>
-                action(async () => {
-                  const t = await api(`/reservations/${r.id}/tickets`, {
-                    method: "POST",
-                  });
-                  setTokens(t.ticketIds);
-                })
-              }
-            >
-              Generar QR de entradas sin usar
-            </button>
-          </p>
-          <small>
-            Generar nuevos QR invalida los anteriores que no se hayan utilizado.
-          </small>
+          {r.estado === "confirmada" ? (
+            <>
+              <p>
+                <button
+                  disabled={busy}
+                  onClick={() =>
+                    action(async () => {
+                      const t = await api(`/reservations/${r.id}/tickets`, {
+                        method: "POST",
+                      });
+                      setTokens(t.ticketIds);
+                    })
+                  }
+                >
+                  Obtener entradas QR y descargar PDF o PNG
+                </button>
+              </p>
+              <small>Por seguridad, obtener nuevas entradas QR invalida los códigos anteriores que aún no se hayan utilizado. Descarga y guarda el nuevo PDF.</small>
+            </>
+          ) : (
+            <p>El QR estará disponible al confirmarse el pago con Mercado Pago.</p>
+          )}
         </details>
       ))}
       {tokens.length > 0 && <Tickets tokens={tokens} />}
