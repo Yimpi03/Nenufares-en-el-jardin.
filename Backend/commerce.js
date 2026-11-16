@@ -555,14 +555,18 @@ export function installCommerce(app, { pool, wrap, signedIn, admin }) {
             total === 0 ? "confirmada" : "pendiente",
           ],
         );
+        // Only issue valid QR tokens at booking for free events.
+        // Paid reservations receive QR codes AFTER the verified payment webhook.
         const tokens = [];
-        for (let i = 1; i <= tickets; i++) {
-          const token = randomBytes(32).toString("hex");
-          tokens.push(token);
-          await db.query(
-            "INSERT INTO entradas(token_hash,reserva_id,ordinal) VALUES($1,$2,$3)",
-            [digest(token), id, i],
-          );
+        if (total === 0) {
+          for (let i = 1; i <= tickets; i++) {
+            const token = randomBytes(32).toString("hex");
+            tokens.push(token);
+            await db.query(
+              "INSERT INTO entradas(token_hash,reserva_id,ordinal) VALUES($1,$2,$3)",
+              [digest(token), id, i],
+            );
+          }
         }
         return {
           id,
@@ -600,6 +604,9 @@ export function installCommerce(app, { pool, wrap, signedIn, admin }) {
           )
         ).rows[0];
         if (!r) fail("Reserva no encontrada.", 404);
+        if (Number(r.total) > 0 && r.estado !== "confirmada") {
+          fail("Las entradas QR se generan cuando Mercado Pago confirma el pago.", 409);
+        }
         const out = [];
         for (let i = 1; i <= r.lugares; i++) {
           const old = (

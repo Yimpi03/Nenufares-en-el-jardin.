@@ -336,6 +336,16 @@ app.get(
     res.json(await orders(req.user.role === "admin" ? null : req.user.id)),
   ),
 );
+// Public directory: only names and categories; never expose private contact information.
+app.get(
+  "/api/public-suppliers",
+  wrap(async (req, res) => {
+    const q = await pool.query(
+      "SELECT id,nombre AS name,categoria AS category FROM proveedores ORDER BY id"
+    );
+    res.json(q.rows.map(r => ({ id: Number(r.id), name: r.name, category: r.category || "" })));
+  }),
+);
 app.get(
   "/api/suppliers",
   admin,
