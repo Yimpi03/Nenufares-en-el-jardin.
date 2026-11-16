@@ -506,3 +506,26 @@
 .suppliers-carousel-arrow { flex: 0 0 36px; }
 @media(max-width: 1024px) { .suppliers-carousel-track { grid-auto-columns: calc((100% - 1.5rem) / 2); } }
 @media(max-width: 640px) { .suppliers-carousel-track { grid-auto-columns: 100%; } .suppliers-carousel-wrap { gap: .5rem; } .suppliers-carousel-arrow { flex-basis: 30px; } }
+
+/* Enlace oficial mientras se obtienen coordenadas para un mapa incrustado fiable. */
+.location-map-link-wrap {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    radial-gradient(circle at 50% 30%, rgba(220,179,88,.12), transparent 50%),
+    linear-gradient(145deg, #14392f 0%, #091d1a 100%);
+  padding: 2rem;
+}
+.location-map-link-content {
+  max-width: 430px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+  text-align: center;
+}
+.location-map-link-content > svg { color: #dcb358; }
+.location-map-link-content h3 { color: #f9eee2; font-family: 'Playfair Display', serif; font-size: 2rem; font-weight: 400; }
+.location-map-link-content p { color: #c5d0c9; line-height: 1.7; }
+.location-map-link-content .btn-google-maps { max-width: 100%; white-space: normal; text-align: center; }
