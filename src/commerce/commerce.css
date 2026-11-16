@@ -267,3 +267,15 @@
 
 .policies-overlay { z-index: 10000; }
 .commerce-close { z-index: 5; background: #fffdf8; border-radius: 50%; width: 36px; height: 36px; line-height: 30px; }
+
+
+/* Descarga de entradas QR con controles visibles en escritorio y móvil */
+.nj-tickets-download { margin: 1rem 0; }
+.nj-ticket-pdf { display: inline-block; background: #c9a34f; color: #112e26; border: 0; border-radius: 6px; padding: .8rem 1rem; font-weight: 700; margin-bottom: 1rem; cursor: pointer; }
+.nj-ticket-pdf:disabled { opacity: .6; cursor: wait; }
+.nj-ticket-cards { display: flex; flex-wrap: wrap; gap: 1rem; }
+.nj-ticket-cards .ticket-card { background: #f9f8f1; border: 1px solid #d2dbc8; border-radius: 10px; padding: 1rem; display: flex; flex-direction: column; gap: .75rem; align-items: center; max-width: 100%; }
+.nj-ticket-cards .ticket-card img { width: 220px; max-width: 100%; height: auto; }
+.nj-ticket-cards .ticket-card a { color: #124b3b; font-weight: 700; text-decoration: underline; }
+.nj-ticket-cards .ticket-card details { max-width: 240px; font-size: .8rem; }
+.nj-ticket-cards .ticket-card code { overflow-wrap: anywhere; }
